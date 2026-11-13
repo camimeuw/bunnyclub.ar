@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#F6E2EE">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-btn="1">
 
   <div class="corner-orn" aria-hidden="true"><img src="assets/img/ornamento-esquina.png" alt=""></div>
   <div id="sparkles" aria-hidden="true"></div>
@@ -71,6 +71,10 @@
       <button class="m-close" data-close aria-label="Cerrar">
         <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
+      <div class="m-head">
+        <p class="m-cat" id="m-cat"></p>
+        <h2 id="m-name"></h2>
+      </div>
       <div class="m-gallery">
         <div class="m-stage">
           <button class="m-arrow prev" aria-label="Foto anterior">‹</button>
@@ -81,8 +85,6 @@
         <div class="m-thumbs" id="m-thumbs"></div>
       </div>
       <div class="m-info">
-        <p class="m-cat" id="m-cat"></p>
-        <h2 id="m-name"></h2>
         <p class="m-price" id="m-price"></p>
         <p class="m-desc" id="m-desc"></p>
         <div class="m-opt" id="m-talles-wrap" hidden>

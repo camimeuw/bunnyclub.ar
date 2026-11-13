@@ -1,7 +1,7 @@
 /* ============ BUNNY CLUB — lógica ============ */
 (() => {
   "use strict";
-  const CFG = Object.assign({ whatsapp: "", instagram: "", productos: "data/productos.csv", carpetaImagenes: "img/", decoraciones: [] }, window.BUNNY || {});
+  const CFG = Object.assign({ whatsapp: "", instagram: "", productos: "data/productos.csv", carpetaImagenes: "img/", estiloBoton: 1, decoraciones: [] }, window.BUNNY || {});
   const $ = (s, r = document) => r.querySelector(s);
   const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wait = ms => new Promise(r => setTimeout(r, ms));
@@ -274,7 +274,7 @@
   }
 
   async function init() {
-    setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
+    document.body.dataset.btn = String(CFG.estiloBoton || 1); setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     renderCatalog();
   }

@@ -64,7 +64,6 @@ img { display: block; max-width: 100%; }
 
 /* ---------- encaje pegado a la izquierda (página y carrito) ---------- */
 .lace { background: url("../assets/img/encaje-lateral.png") right top / 100% auto repeat-y; pointer-events: none; }
-.lace-page { position: fixed; top: 0; bottom: 0; right: 0; width: 34px; z-index: 1; animation: appear 2.6s var(--ease) .8s backwards; }
 .cart-lace { position: absolute; top: 0; bottom: 0; right: 0; width: 30px; }
 
 /* ---------- adorno de la esquina izquierda ---------- */
@@ -247,7 +246,6 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
-  .lace-page { width: 22px; }
   .corner-orn { width: 36vw; top: 4px; left: 4px; }
   .corner-orn.corner-orn--br { width: 52vw; top: auto; left: auto; right: 0; bottom: 0; }
   #hero { padding-top: 2vh; }

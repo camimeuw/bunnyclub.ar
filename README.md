@@ -34,7 +34,12 @@ Armá la misma planilla en Google Sheets → *Archivo → Compartir → Publicar
 `productos` de `js/config.js`. Los cambios se ven sin volver a subir nada.
 
 ## 3. Probar en tu compu
-Por seguridad el navegador no deja leer el CSV abriendo `index.html` directo. Usá un servidor local:
+Podés abrir `index.html` con doble clic: ahí la página lee una copia del catálogo, `data/productos.js`.
+**Cada vez que edites el Excel/CSV, actualizá esa copia** (ya funciona online sin este paso, porque ahí se lee el CSV directo):
+```bash
+python3 tools/actualizar-productos.py
+```
+Si preferís probarla como si estuviera online:
 ```bash
 python3 -m http.server 8000
 ```

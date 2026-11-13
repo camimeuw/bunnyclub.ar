@@ -35,9 +35,17 @@
   let PRODUCTS = [];
   async function loadProducts() {
     try {
-      const res = await fetch(CFG.productos, { cache: "no-cache" });
-      if (!res.ok) throw new Error(res.status);
-      PRODUCTS = parseCSV(await res.text()).map((r, i) => {
+      let text = null;
+      try {                                                    // online: se lee la planilla actual
+        if (location.protocol === "file:") throw new Error("sin servidor");
+        const res = await fetch(CFG.productos, { cache: "no-cache" });
+        if (!res.ok) throw new Error(res.status);
+        text = await res.text();
+      } catch (err) {                                          // abierto con doble clic: copia en data/productos.js
+        if (typeof window.BUNNY_CSV !== "string") throw err;
+        text = window.BUNNY_CSV;
+      }
+      PRODUCTS = parseCSV(text).map((r, i) => {
         const imgs = list(r.imagenes || r.imagen).map(f => /^(https?:)?\/\//.test(f) || f.startsWith("/") ? f : CFG.carpetaImagenes + f);
         return {
           id: i, nombre: r.nombre, precio: num(r.precio),
@@ -49,7 +57,7 @@
     } catch (e) {
       console.error("No pude leer los productos:", e);
       PRODUCTS = [];
-      $("#empty").textContent = "No pude cargar los productos. Si abriste el archivo directo, usá un servidor local (ver README).";
+      $("#empty").textContent = "No pude cargar los productos. Revisá data/productos.csv (ver README).";
     }
   }
 

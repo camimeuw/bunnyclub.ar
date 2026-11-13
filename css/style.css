@@ -63,7 +63,7 @@ img { display: block; max-width: 100%; }
 .hero-brand { width: min(60vw, 300px); }
 #hero-logo { display: block; animation: appear 2.6s var(--ease) .2s backwards; }
 #hero-logo img { width: 100%; animation: floatSoft 6s ease-in-out 3s infinite alternate; }
-.bunnies-float { margin: -50px 0 0 17%; width: 34%; animation: floatSoft 5s ease-in-out 4s infinite alternate; }
+.bunnies-float { margin: -50px 0 0 24%; width: 34%; animation: floatSoft 5s ease-in-out 4s infinite alternate; }
 #hero-bunnies { width: 100%; animation: appear 2.8s var(--ease) 1.2s backwards; }
 
 /* ---------- logo de la esquina (aparece al bajar) ---------- */

@@ -239,8 +239,6 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
-  #catalog .deco-bow { width: calc(var(--bw, 120px) * .6); }
-  #catalog:not(.plain) .deco-bow:nth-child(3n+2) { translate: 0 70px; }
   #catalog.plain .item { width: 100% !important; }
   .corner-orn { width: 36vw; top: 4px; left: 4px; }
   .corner-orn.corner-orn--br { width: 52vw; top: auto; left: auto; right: 0; bottom: 0; }
@@ -288,10 +286,6 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 .mp-body ul { list-style: none; padding: 0; margin: 0; }
 .mp-body li::before { content: "✦"; font-size: .6em; color: var(--pink-deep); margin-right: 8px; vertical-align: .25em; }
 
-/* moños decorativos: ocupan los lugares libres de la grilla */
-.deco-bow { width: var(--bw, 120px); justify-self: center; align-self: center; rotate: var(--br, 0deg); pointer-events: none; animation: appear 2.8s var(--ease) var(--bd, 2.4s) backwards; transition: opacity .6s var(--ease); }
-.deco-bow img { width: 100%; display: block; filter: drop-shadow(0 8px 8px rgba(120,50,90,.2)); }
-#catalog.leaving .deco-bow { opacity: 0; }
 /* vista filtrada: grilla limpia */
 #catalog.plain .item { translate: none !important; scale: none !important; margin-top: var(--dy) !important; justify-self: center !important; z-index: auto !important; }
 
@@ -357,7 +351,6 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
   /* desplazamientos visuales (translate no mueve a los demás productos) */
   #catalog .item:nth-child(4n+2), #catalog .item:nth-child(4n+4) { translate: 0 46px; }
   #catalog .item:nth-child(2) { margin-top: calc(var(--dy) + 24px); translate: 0 22px; scale: 1.14; transform-origin: 50% 0; z-index: 2; }
-  #catalog:not(.plain) .deco-bow:nth-child(4n+2), #catalog:not(.plain) .deco-bow:nth-child(4n+4) { translate: 0 46px; }
 }
 @media (min-width: 641px) and (max-width: 1100px) {
   #catalog .item:nth-child(2) { scale: 1.04; }

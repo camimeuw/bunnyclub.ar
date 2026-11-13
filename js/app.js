@@ -105,16 +105,6 @@
         </button>`;
       catalog.appendChild(li);
     });
-    // moños en los lugares libres de la última fila
-    const cols = matchMedia("(max-width: 640px)").matches ? 3 : 4, free = (cols - items.length % cols) % cols;
-    const bows = [{ f: "mono-negro.svg", w: 100, r: 14 }];
-    for (let k = 0; k < Math.min(free, 1) && items.length; k++) {
-      const b = bows[k], d = document.createElement("li");
-      d.className = "deco-bow"; d.setAttribute("aria-hidden", "true");
-      d.style.cssText = `--bw:${b.w}px;--br:${b.r}deg;--bd:${(2.4 + k * .5).toFixed(1)}s`;
-      d.innerHTML = `<img src="assets/img/${b.f}" alt="">`;
-      catalog.appendChild(d);
-    }
   }
 
   /* ---------- menú (categorías, talles, envíos, contacto) ---------- */

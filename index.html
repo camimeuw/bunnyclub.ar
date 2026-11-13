@@ -15,7 +15,7 @@
   <div id="sparkles" aria-hidden="true"></div>
   <div id="decor" aria-hidden="true"></div>
 
-  <!-- Logo chico de la esquina (aparece al entrar a una categoría) -->
+  <!-- Logo chico de la esquina (aparece al bajar) -->
   <a id="corner-logo" href="#/" aria-label="Bunny Club — inicio">
     <img src="assets/img/logo-vertical.png" alt="Bunny Club">
   </a>
@@ -41,14 +41,8 @@
 
   <!-- CATÁLOGO -->
   <main id="catalog-wrap">
-    <div class="flyer-head">
-      <p class="fh-kicker" id="fh-kicker"></p>
-      <h1 id="catalog-title"></h1>
-      <p class="fh-line"><i class="orn"></i><span id="fh-sub"></span><i class="orn"></i></p>
-    </div>
     <ul id="catalog"></ul>
     <p id="empty" hidden>Pronto vas a encontrar todo lo nuevo acá ♡</p>
-    <p class="fh-close"><i class="orn"></i><span id="fh-close"></span><i class="orn"></i></p>
   </main>
 
   <footer id="footer">
@@ -88,9 +82,11 @@
           <p class="m-label">Color</p>
           <div class="chips" id="m-colores" role="radiogroup" aria-label="Color"></div>
         </div>
-        <a id="m-buy" class="m-buy" target="_blank" rel="noopener">
+        <div class="m-wrap-buy">
+          <a id="m-buy" class="m-buy" target="_blank" rel="noopener">
           <span>Comprar por WhatsApp</span>
         </a>
+        </div>
         <p class="m-hint" id="m-hint" role="status"></p>
       </div>
     </article>

@@ -96,7 +96,7 @@
   }
 
   /* ---------- catálogo ---------- */
-  const catalog = $("#catalog"), title = $("#catalog-title"), empty = $("#empty");
+  const catalog = $("#catalog"), empty = $("#empty");
   const label = r => { const c = MENU.find(m => m.slug === r.cat); if (!c) return "Todo"; const s = c.sub && c.sub.find(x => x.slug === r.sub); return s ? s.label : c.label; };
 
   function filtered(route) {
@@ -105,7 +105,6 @@
 
   function renderCatalog(route) {
     const items = filtered(route);
-    title.innerHTML = route.cat === "todo" ? "" : `${label(route)}<span class="ornament">✦ ✦ ✦</span>`;
     empty.hidden = items.length > 0;
     catalog.innerHTML = "";
     items.forEach((p, i) => {
@@ -138,12 +137,11 @@
     const route = parseRoute();
     updateMenu(route);
     if (!firstPaint && catalog.children.length) {      // los productos se van flotando y entran los nuevos
-      catalog.classList.add("leaving"); title.classList.add("out");
+      catalog.classList.add("leaving");
       await wait(REDUCED ? 0 : 900 + Math.min(catalog.children.length, 10) * 50);
       catalog.classList.remove("leaving");
     }
     renderCatalog(route);
-    title.classList.remove("out");
     document.title = route.cat === "todo" ? "Bunny Club" : `${label(route)} — Bunny Club`;
     if (!firstPaint && document.body.classList.contains("is-stuck")) {
       const wrap = $("#catalog-wrap"); window.scrollTo({ top: wrap.getBoundingClientRect().top + scrollY - 110, behavior: REDUCED ? "auto" : "smooth" });
@@ -268,12 +266,6 @@
     });
   }
 
-  /* ---------- títulos tipo flyer ---------- */
-  function titles() {
-    const t = Object.assign({ superior: "angelic bunny", subtitulo: "ANGEL MENU", cierre: "The Bunny's Banquet" }, CFG.titulos || {});
-    $("#fh-kicker").textContent = t.superior; $("#fh-sub").textContent = t.subtitulo; $("#fh-close").textContent = t.cierre;
-  }
-
   /* ---------- pie ---------- */
   function footer() {
     $("#f-wa").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent("Hola Bunny Club! 🐰")}`;
@@ -289,7 +281,7 @@
   }
 
   async function init() {
-    setCursors(); buildMenu(); titles(); sparkles(); decorations(); footer(); watchScroll();
+    setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     window.addEventListener("hashchange", render);
     render();

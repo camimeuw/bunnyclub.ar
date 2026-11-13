@@ -121,8 +121,8 @@
   const mpanel = $("#mpanel"), menuBtn = $("#menu-btn");
   function buildMenuPanel() {
     $("#mp-cats").innerHTML = `<button type="button" class="mp-cat" data-cat="todo">Ver todo</button>` + MENU.map(m =>
-      `<button type="button" class="mp-cat" data-cat="${m.slug}">${m.label}</button>` +
-      (m.sub ? `<div class="mp-subs">${m.sub.map(s => `<button type="button" class="mp-sub" data-cat="${m.slug}" data-sub="${s.slug}">${s.label}</button>`).join("")}</div>` : "")).join("");
+      `<button type="button" class="mp-cat" data-cat="${m.slug}"${m.sub ? ' data-has-sub aria-expanded="false"' : ""}>${m.label}</button>` +
+      (m.sub ? `<div class="mp-subs" data-for="${m.slug}"><div>${[{ slug: "", label: "Todo" }, ...m.sub].map(s => `<button type="button" class="mp-sub" data-cat="${m.slug}" data-sub="${s.slug}">${s.label}</button>`).join("")}</div></div>` : "")).join("");
     const info = CFG.info || {};
     const lines = a => (a || []).map(t => `<p>${t}</p>`).join("");
     $("#mp-talles").innerHTML = lines(info.talles);
@@ -133,8 +133,8 @@
     markMenu();
   }
   function markMenu() {
-    mpanel.querySelectorAll(".mp-cat").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && !FILTER.sub)));
-    mpanel.querySelectorAll(".mp-sub").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && b.dataset.sub === FILTER.sub)));
+    mpanel.querySelectorAll(".mp-cat").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && (b.hasAttribute("data-has-sub") || !FILTER.sub))));
+    mpanel.querySelectorAll(".mp-sub").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && (b.dataset.sub || null) === FILTER.sub)));
   }
   let filtering = false;
   async function applyFilter(cat, sub) {
@@ -147,13 +147,21 @@
     if (scrollY > 120) window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
     filtering = false;
   }
-  const openMenu = () => { mpanel.classList.add("open"); mpanel.setAttribute("aria-hidden", "false"); menuBtn.setAttribute("aria-expanded", "true"); };
+  function toggleSubs(cat, force) {
+    mpanel.querySelectorAll(".mp-subs").forEach(el => {
+      const on = el.dataset.for === cat ? (force ?? !el.classList.contains("open")) : false;
+      el.classList.toggle("open", on);
+      const b = mpanel.querySelector(`.mp-cat[data-cat="${el.dataset.for}"]`); if (b) b.setAttribute("aria-expanded", String(on));
+    });
+  }
+  const openMenu = () => { toggleSubs(FILTER.cat, true); mpanel.classList.add("open"); mpanel.setAttribute("aria-hidden", "false"); menuBtn.setAttribute("aria-expanded", "true"); };
   const closeMenu = () => { mpanel.classList.remove("open"); mpanel.setAttribute("aria-hidden", "true"); menuBtn.setAttribute("aria-expanded", "false"); };
   menuBtn.addEventListener("click", openMenu);
   mpanel.addEventListener("click", e => {
     if (e.target.closest("[data-menu-close]")) return closeMenu();
     const b = e.target.closest(".mp-cat, .mp-sub"); if (!b) return;
-    closeMenu(); applyFilter(b.dataset.cat, b.dataset.sub);
+    if (b.hasAttribute("data-has-sub")) return toggleSubs(b.dataset.cat);   // Indumentaria: despliega sus subcategorías
+    closeMenu(); applyFilter(b.dataset.cat, b.dataset.sub || null);
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && mpanel.classList.contains("open")) closeMenu(); });
 

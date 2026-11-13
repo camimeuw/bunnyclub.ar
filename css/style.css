@@ -98,7 +98,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #catalog-wrap { position: relative; z-index: 3; padding: 0 clamp(10px, 3vw, 40px) 28px; max-width: 1240px; margin: 0 auto; }
 #catalog-wrap { min-height: 55vh; scroll-margin-top: 120px; }
 
-#catalog { display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; align-items: start; gap: 28px 6px; max-width: 1320px; margin: 0 auto; padding: 56px 0 26px; }
+#catalog { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); justify-items: center; align-items: start; gap: 28px 6px; max-width: 1320px; margin: 0 auto; padding: 56px 0 26px; }
 .item { position: relative; width: min(var(--w), 100%); margin-top: var(--dy); margin-left: 0; animation: floatIn 2.8s var(--ease) var(--delay) backwards; }
 #catalog.leaving .item { animation: floatOut .9s var(--ease) var(--out) forwards; }
 .item .float { animation: float var(--fd) ease-in-out var(--fdl) infinite alternate; }
@@ -125,7 +125,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #empty { text-align: center; font-family: var(--font-info); font-size: 18px; line-height: 1.7; padding: 60px 0; }
 
 @media (max-width: 640px) {
-  #catalog { grid-template-columns: repeat(3, 1fr); gap: 22px 0; max-width: none; padding-left: .5vw; padding-right: .5vw; padding-top: 34px; }
+  #catalog { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 0; max-width: none; padding-left: .5vw; padding-right: .5vw; padding-top: 34px; }
   .item { width: 100%; margin-left: 0; margin-top: calc(var(--dy) * .5); }
   #catalog .item:nth-child(3n+2) { translate: 0 24px; }
   #catalog .item:nth-child(2) { margin-top: calc(var(--dy) * .5 + 55px); translate: 0 30px; scale: 1.18; transform-origin: 50% 0; z-index: 2; }
@@ -239,7 +239,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
-  .deco-bow { width: calc(var(--bw, 120px) * .6); }
+  #catalog .deco-bow { width: calc(var(--bw, 120px) * .6); }
   #catalog:not(.plain) .deco-bow:nth-child(3n+2) { translate: 0 70px; }
   #catalog.plain .item { width: 100% !important; }
   .corner-orn { width: 36vw; top: 4px; left: 4px; }
@@ -266,7 +266,12 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 .mp-cat { font-family: var(--font-script); font-weight: 700; font-size: 26px; line-height: 1.2; text-align: left; padding: 4px 16px 6px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.35)); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 0 0 3px rgba(255,255,255,.3), 0 6px 16px -10px rgba(184,88,139,.6), inset 0 0 12px rgba(255,255,255,.9); transition: transform .4s var(--ease), background .4s, box-shadow .4s; }
 .mp-cat:hover { transform: translateX(3px); background: #fff; }
 .mp-cat[aria-current="true"] { background: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,.6), 0 0 18px rgba(255,255,255,.95), inset 0 0 12px #fff; }
-.mp-subs { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 4px 22px; }
+.mp-subs { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .6s var(--ease), opacity .5s var(--ease); }
+.mp-subs.open { grid-template-rows: 1fr; opacity: 1; }
+.mp-subs > div { overflow: hidden; display: flex; flex-direction: column; gap: 2px; padding-left: 22px; }
+.mp-cat[data-has-sub] { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.mp-cat[data-has-sub]::after { content: "+"; font-family: var(--font-info); font-size: 20px; color: var(--pink-deep); transition: transform .4s var(--ease); }
+.mp-cat[data-has-sub][aria-expanded="true"]::after { transform: rotate(45deg); }
 .mp-sub { font-family: var(--font-script); font-weight: 700; font-size: 21px; line-height: 1.2; text-align: left; padding: 2px 12px 4px; border-radius: 999px; color: var(--ink-soft); transition: background .3s, color .3s, transform .3s var(--ease); }
 .mp-sub::before { content: "✦"; font-family: var(--font-body); font-size: .5em; margin-right: 8px; color: var(--pink-deep); vertical-align: .3em; }
 .mp-sub:hover { background: rgba(255,255,255,.7); transform: translateX(3px); }

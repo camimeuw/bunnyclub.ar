@@ -76,7 +76,7 @@
     items.forEach((p, i) => {
       const r = rng(p.id * 7919 + 13);
       const li = document.createElement("li");
-      li.className = "item" + (i % 2 ? " flip" : "") + (p.agotado ? " is-sold" : "");
+      li.className = "item" + (SIZES[i % SIZES.length] >= 340 ? " big" : "") + (i % 2 ? " flip" : "") + (p.agotado ? " is-sold" : "");
       const w = SIZES[i % SIZES.length];                     // algunos grandes, otros chicos
       li.style.cssText = `--w:${w}px;--k:${(w / 10).toFixed(1)};--r:${between(r, -5, 5).toFixed(1)}deg;--dy:${Math.round(between(r, 0, 26))}px;--dx:${Math.round(between(r, -10, 10))}px;--delay:${(0.4 + Math.min(i, 9) * 0.2).toFixed(2)}s;--out:${(i * 0.05).toFixed(2)}s;--fd:${between(r, 7, 12).toFixed(1)}s;--fdl:${(-between(r, 0, 8)).toFixed(1)}s`;
       const alt = p.imgs[1];

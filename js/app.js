@@ -71,8 +71,7 @@
   /* ---------- ruta ---------- */
   function parseRoute() {
     const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-    if (!parts.length) return { home: true };
-    return { home: false, cat: parts[0], sub: parts[1] || null };
+    return { cat: parts[0] || "todo", sub: parts[1] || null };
   }
 
   /* ---------- menú ---------- */
@@ -82,12 +81,12 @@
   }
   function updateMenu(route) {
     menuMain.querySelectorAll("a").forEach(a => {
-      const on = !route.home && a.dataset.cat === route.cat && !route.sub;
-      const parent = !route.home && a.dataset.cat === route.cat;
+      const on = a.dataset.cat === route.cat && !route.sub;
+      const parent = a.dataset.cat === route.cat;
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
       a.dataset.parent = parent ? "1" : "";
     });
-    const cat = MENU.find(m => !route.home && m.slug === route.cat);
+    const cat = MENU.find(m => m.slug === route.cat);
     if (cat && cat.sub) {
       menuSub.innerHTML = [`<li><a href="#/${cat.slug}">Todo</a></li>`, ...cat.sub.map(s => `<li><a href="#/${cat.slug}/${s.slug}">${s.label}</a></li>`)].join("");
       menuSub.querySelectorAll("a").forEach((a, i) => { const on = route.sub ? a.getAttribute("href") === `#/${cat.slug}/${route.sub}` : i === 0; if (on) a.setAttribute("aria-current", "page"); });
@@ -105,7 +104,7 @@
 
   function renderCatalog(route) {
     const items = filtered(route);
-    title.innerHTML = `${label(route)}<span class="ornament">✦ ✦ ✦</span>`;
+    title.innerHTML = route.cat === "todo" ? "" : `${label(route)}<span class="ornament">✦ ✦ ✦</span>`;
     empty.hidden = items.length > 0;
     catalog.innerHTML = "";
     items.forEach((p, i) => {
@@ -113,7 +112,7 @@
       const li = document.createElement("li");
       li.className = "item" + (i % 2 ? " flip" : "") + (p.agotado ? " is-sold" : "");
       const w = Math.round(between(r, 170, 260));
-      li.style.cssText = `--w:${w}px;--r:${between(r, -7, 7).toFixed(1)}deg;--dy:${Math.round(between(r, -10, 60))}px;--dx:${Math.round(between(r, -30, 30))}px;--delay:${(0.15 + i * 0.22).toFixed(2)}s;--out:${(i * 0.05).toFixed(2)}s;--fd:${between(r, 7, 12).toFixed(1)}s;--fdl:${(-between(r, 0, 8)).toFixed(1)}s`;
+      li.style.cssText = `--w:${w}px;--r:${between(r, -7, 7).toFixed(1)}deg;--dy:${Math.round(between(r, -10, 60))}px;--dx:${Math.round(between(r, -30, 30))}px;--delay:${(0.4 + Math.min(i, 9) * 0.2).toFixed(2)}s;--out:${(i * 0.05).toFixed(2)}s;--fd:${between(r, 7, 12).toFixed(1)}s;--fdl:${(-between(r, 0, 8)).toFixed(1)}s`;
       const alt = p.imgs[1];
       li.innerHTML = `
         <button class="item-btn" data-id="${p.id}" aria-label="Ver ${p.nombre}">
@@ -131,33 +130,25 @@
     });
   }
 
-  let busy = false, queued = null;
+  let busy = false, queued = false, firstPaint = true;
   async function render() {
     if (busy) { queued = true; return; }
     busy = true;
     const route = parseRoute();
-    const wasHome = document.body.classList.contains("is-home");
-    const hadItems = catalog.children.length > 0 && !wasHome;
     updateMenu(route);
-
-    if (hadItems && !route.home) {                 // categoría → categoría: desaparecen y aparecen
+    if (!firstPaint && catalog.children.length) {      // los productos se van flotando y entran los nuevos
       catalog.classList.add("leaving"); title.classList.add("out");
-      await wait(REDUCED ? 0 : 750 + Math.min(catalog.children.length, 12) * 50);
+      await wait(REDUCED ? 0 : 900 + Math.min(catalog.children.length, 10) * 50);
       catalog.classList.remove("leaving");
     }
-    if (route.home) {
-      document.body.classList.add("is-home");
-      document.title = "Bunny Club";
-      if (!wasHome) { catalog.classList.add("leaving"); await wait(REDUCED ? 0 : 500); catalog.classList.remove("leaving"); catalog.innerHTML = ""; }
-    } else {
-      renderCatalog(route);
-      title.classList.remove("out");
-      document.title = `${label(route)} — Bunny Club`;
-      if (wasHome) { document.body.classList.remove("is-home"); window.scrollTo({ top: 0 }); }
-      else window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
+    renderCatalog(route);
+    title.classList.remove("out");
+    document.title = route.cat === "todo" ? "Bunny Club" : `${label(route)} — Bunny Club`;
+    if (!firstPaint && document.body.classList.contains("is-stuck")) {
+      const wrap = $("#catalog-wrap"); window.scrollTo({ top: wrap.getBoundingClientRect().top + scrollY - 110, behavior: REDUCED ? "auto" : "smooth" });
     }
-    busy = false;
-    if (queued) { queued = null; render(); }
+    firstPaint = false; busy = false;
+    if (queued) { queued = false; render(); }
   }
 
   /* ---------- modal de producto ---------- */
@@ -272,9 +263,9 @@
   ];
   function spawnNote() {
     if (REDUCED || document.hidden) return;
-    const anchor = document.body.classList.contains("is-home") ? $("#hero-logo") : $("#corner-logo");
+    const home = !document.body.classList.contains("is-stuck");
+    const anchor = home ? $("#hero-logo") : $("#corner-logo");
     const b = anchor.getBoundingClientRect(); if (!b.width) return;
-    const home = document.body.classList.contains("is-home");
     const n = document.createElement("span"); n.className = "note"; n.innerHTML = NOTES[Math.floor(Math.random() * NOTES.length)];
     const size = home ? 14 + Math.random() * 18 : 10 + Math.random() * 10;
     const x = b.left + Math.random() * b.width, y = b.top + b.height * (home ? 0.15 + Math.random() * 0.5 : 0.1 + Math.random() * 0.4);
@@ -297,14 +288,18 @@
   }
 
   /* ---------- arranque ---------- */
+  function watchScroll() {
+    const sentinel = $("#menu-sentinel"); let tick = false;
+    const check = () => { tick = false; document.body.classList.toggle("is-stuck", sentinel.getBoundingClientRect().top < -2); };
+    addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+  }
+
   async function init() {
-    setCursors(); buildMenu(); sparkles(); decorations(); footer();
+    setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     window.addEventListener("hashchange", render);
-    // primera pintura sin animación de salida
-    const route = parseRoute(); updateMenu(route);
-    if (!route.home) { document.body.classList.remove("is-home"); renderCatalog(route); title.classList.remove("out"); document.title = `${label(route)} — Bunny Club`; }
-    document.body.classList.remove("is-booting");
+    render();
     setInterval(spawnNote, 1500); setTimeout(spawnNote, 1800);
   }
   init();

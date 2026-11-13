@@ -81,7 +81,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #catalog-wrap { position: relative; z-index: 3; padding: 0 clamp(10px, 3vw, 40px) 28px; max-width: 1240px; margin: 0 auto; }
 #catalog-wrap { min-height: 55vh; scroll-margin-top: 120px; }
 
-#catalog { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 12px clamp(10px, 2vw, 26px); padding: 8px 0 26px; }
+#catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); justify-items: center; align-items: start; gap: 30px 20px; padding: 26px 0 26px; }
 .item { position: relative; width: var(--w); margin-top: var(--dy); margin-left: var(--dx); animation: floatIn 2.8s var(--ease) var(--delay) backwards; }
 #catalog.leaving .item { animation: floatOut .9s var(--ease) var(--out) forwards; }
 .item .float { animation: float var(--fd) ease-in-out var(--fdl) infinite alternate; }
@@ -99,7 +99,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 .item.is-sold .pic img { opacity: .55; }
 .item .cap { margin-top: 4px; display: flex; flex-direction: column; gap: 2px; transform: rotate(calc(var(--r) * -.5)); }
 .item.flip .cap { align-items: flex-end; text-align: right; }
-.item .name { font-family: var(--font-title); font-size: clamp(15px, 1.25vw, 18px); line-height: 1.05; letter-spacing: .01em; }
+.item .name { overflow-wrap: anywhere; font-family: var(--font-title); font-size: clamp(15px, 1.25vw, 18px); line-height: 1.05; letter-spacing: .01em; }
 .item .price { font-family: var(--font-title); font-size: clamp(15px, 1.25vw, 18px); color: var(--pink-deep); text-shadow: 0 0 10px rgba(255,255,255,.9); }
 .item .price::before { content: ""; display: inline-block; width: 12px; height: 1.5px; background: currentColor; vertical-align: middle; margin-right: 5px; opacity: .6; }
 .item.flip .price::before { display: none; }
@@ -108,8 +108,8 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #empty { text-align: center; font-family: var(--font-info); font-size: 18px; line-height: 1.7; padding: 60px 0; }
 
 @media (max-width: 640px) {
-  #catalog { gap: 10px 6px; }
-  .item { width: calc(25vw + (var(--w) - 120px) * .2); margin-left: calc(var(--dx) * .2); margin-top: calc(var(--dy) * .5); }
+  #catalog { grid-template-columns: repeat(3, 1fr); gap: 16px 6px; }
+  .item { width: min(100%, calc(24vw + (var(--w) - 150px) * .2)); margin-left: calc(var(--dx) * .2); margin-top: calc(var(--dy) * .5); }
   .item .badge { width: 20px; height: 20px; font-size: 11px; }
 }
 

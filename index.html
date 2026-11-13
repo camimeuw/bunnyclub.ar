@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bunny Club</title>
+  <meta name="description" content="Bunny Club — indumentaria y accesorios.">
+  <meta name="theme-color" content="#F6E2EE">
+  <link rel="preload" href="assets/fonts/WizardsMagic.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/BurguesScript.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-home is-booting">
+
+  <div id="sparkles" aria-hidden="true"></div>
+  <div id="decor" aria-hidden="true"></div>
+  <div id="notes" aria-hidden="true"></div>
+
+  <!-- Logo chico de la esquina (aparece al entrar a una categoría) -->
+  <a id="corner-logo" href="#/" aria-label="Bunny Club — inicio">
+    <img src="assets/img/logo-vertical.png" alt="Bunny Club">
+  </a>
+
+  <!-- PORTADA -->
+  <header id="hero">
+    <a id="hero-logo" href="#/" aria-label="Bunny Club">
+      <img src="assets/img/logo-horizontal.png" alt="Bunny Club">
+    </a>
+    <img id="hero-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true">
+  </header>
+
+  <!-- MENÚ ANGELICAL -->
+  <nav id="menu" aria-label="Categorías">
+    <svg class="halo" viewBox="0 0 120 30" aria-hidden="true">
+      <ellipse cx="60" cy="15" rx="46" ry="8" fill="none" stroke="currentColor" stroke-width="2.2"/>
+      <ellipse cx="60" cy="15" rx="46" ry="8" fill="none" stroke="#fff" stroke-width="1" opacity=".8" transform="translate(0 -1.2)"/>
+    </svg>
+    <ul class="menu-main" id="menu-main"></ul>
+    <ul class="menu-sub" id="menu-sub" aria-label="Subcategorías"></ul>
+  </nav>
+
+  <!-- CATÁLOGO -->
+  <main id="catalog-wrap">
+    <h1 id="catalog-title"></h1>
+    <ul id="catalog"></ul>
+    <p id="empty" hidden>Todavía no hay nada por acá 🐰</p>
+  </main>
+
+  <footer id="footer">
+    <span class="f-script">Bunny Club</span>
+    <span class="f-links">
+      <a id="f-wa" target="_blank" rel="noopener">WhatsApp</a>
+      <a id="f-ig" target="_blank" rel="noopener" hidden>Instagram</a>
+    </span>
+  </footer>
+
+  <!-- DETALLE DE PRODUCTO -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="m-name">
+      <button class="m-close" data-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <div class="m-gallery">
+        <div class="m-stage">
+          <button class="m-arrow prev" aria-label="Foto anterior">‹</button>
+          <img id="m-img" alt="">
+          <button class="m-arrow next" aria-label="Foto siguiente">›</button>
+          <span id="m-sold" class="m-sold" hidden>Agotado</span>
+        </div>
+        <div class="m-thumbs" id="m-thumbs"></div>
+      </div>
+      <div class="m-info">
+        <p class="m-cat" id="m-cat"></p>
+        <h2 id="m-name"></h2>
+        <p class="m-price" id="m-price"></p>
+        <p class="m-desc" id="m-desc"></p>
+        <div class="m-opt" id="m-talles-wrap" hidden>
+          <p class="m-label">Talle</p>
+          <div class="chips" id="m-talles" role="radiogroup" aria-label="Talle"></div>
+        </div>
+        <div class="m-opt" id="m-colores-wrap" hidden>
+          <p class="m-label">Color</p>
+          <div class="chips" id="m-colores" role="radiogroup" aria-label="Color"></div>
+        </div>
+        <a id="m-buy" class="m-buy" target="_blank" rel="noopener">
+          <span>Comprar por WhatsApp</span>
+        </a>
+        <p class="m-hint" id="m-hint" role="status"></p>
+      </div>
+    </article>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

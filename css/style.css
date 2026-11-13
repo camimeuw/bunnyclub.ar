@@ -73,7 +73,7 @@ img { display: block; max-width: 100%; }
 /* ---------- portada (arriba de todo) ---------- */
 @keyframes floatSoft { from { transform: translateY(0); } to { transform: translateY(-5px); } }
 #hero { position: relative; z-index: 2; display: flex; justify-content: center; padding: 3vh 16px 0; }
-.hero-brand { width: min(46vw, 220px); }
+.hero-brand { width: min(46vw, 220px); translate: 0 18px; }
 #hero-logo { display: block; animation: appear 2.6s var(--ease) .2s backwards; }
 #hero-logo img { width: 100%; animation: floatSoft 6s ease-in-out 3s infinite alternate; }
 .bunnies-float { margin: -16% 0 0 24%; width: 34%; animation: floatSoft 5s ease-in-out 4s infinite alternate; }
@@ -245,7 +245,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
   .corner-orn { width: 36vw; top: 4px; left: 4px; }
   .corner-orn.corner-orn--br { width: 52vw; top: auto; left: auto; right: 0; bottom: 0; }
   #hero { padding-top: 2vh; }
-  .hero-brand { width: min(40vw, 160px); }
+  .hero-brand { width: min(40vw, 160px); translate: 0 14px; }
   .bunnies-float { margin-top: -13%; }
   #catalog { padding-top: 40px; }
   .item .name, .item .price { font-size: 13px; }

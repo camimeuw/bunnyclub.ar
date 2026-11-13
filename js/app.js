@@ -106,7 +106,7 @@
       catalog.appendChild(li);
     });
     // moños en los lugares libres de la última fila
-    const cols = matchMedia("(max-width: 640px)").matches ? 3 : 3, free = (cols - items.length % cols) % cols;
+    const cols = matchMedia("(max-width: 640px)").matches ? 3 : 4, free = (cols - items.length % cols) % cols;
     const bows = free === 1 ? [{ f: "mono-rosa.svg", w: 150, r: -12 }] : [{ f: "mono-negro.svg", w: 90, r: 14 }, { f: "mono-rosa.svg", w: 150, r: -12 }];
     for (let k = 0; k < free && items.length; k++) {
       const b = bows[k], d = document.createElement("li");

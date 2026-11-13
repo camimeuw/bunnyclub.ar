@@ -94,6 +94,9 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #catalog { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: start; gap: 40px 10px; max-width: 1200px; margin: 0 auto; padding: 70px 0 26px; }
 #catalog .item:nth-child(3n+2) { margin-top: calc(var(--dy) + 64px); }
 #catalog .item:nth-child(2) { margin-top: calc(var(--dy) + 110px); }
+#catalog .item:nth-child(8) { margin-top: calc(var(--dy) + 130px); }
+#catalog .item:nth-child(4) { justify-self: end; }
+#catalog .item:nth-child(6) { justify-self: start; }
 .item { position: relative; width: min(var(--w), 100%); margin-top: var(--dy); margin-left: 0; animation: floatIn 2.8s var(--ease) var(--delay) backwards; }
 #catalog.leaving .item { animation: floatOut .9s var(--ease) var(--out) forwards; }
 .item .float { animation: float var(--fd) ease-in-out var(--fdl) infinite alternate; }
@@ -128,6 +131,10 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
   #catalog .item.big:nth-child(3n+1) { justify-self: start; }
   #catalog .item.big:nth-child(3n) { justify-self: end; }
   #catalog .item.big:nth-child(3n+2) { width: 100%; }
+  #catalog .item:nth-child(7), #catalog .item:nth-child(9) { width: 132%; }
+  #catalog .item:nth-child(8) { margin-top: calc(var(--dy) * .5 + 150px); z-index: 2; }
+  #catalog .item:nth-child(4) { justify-self: end; }
+  #catalog .item:nth-child(6) { justify-self: start; }
   .item .badge { width: 20px; height: 20px; font-size: 11px; }
 }
 

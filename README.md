@@ -40,6 +40,14 @@ python3 -m http.server 8000
 ```
 y abrí http://localhost:8000. Subido a un hosting (GitHub Pages, Netlify, etc.) funciona normal.
 
+## Carrito
+El carrito está en la esquina de arriba a la derecha. Al abrir un producto se elige talle y color y se toca **Agregar al carrito**.
+El carrito suma el total y arma el pedido por WhatsApp (botón *Pedir por WhatsApp*). Se guarda en el navegador de cada clienta.
+Los productos marcados como agotados no se agregan: ofrecen *Consultar reposición* por WhatsApp.
+
+## Categorías
+Por ahora no se muestran en la página (las columnas `categoria` y `subcategoria` del Excel quedan guardadas para cuando se vuelvan a usar).
+
 ## 4. Decoraciones laterales
 Agregá PNGs transparentes en `assets/img/decor/` y listalos en `decoraciones` de `js/config.js`.
 

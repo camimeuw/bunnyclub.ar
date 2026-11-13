@@ -16,28 +16,20 @@
   <div id="decor" aria-hidden="true"></div>
 
   <!-- Logo chico de la esquina (aparece al bajar) -->
-  <a id="corner-logo" href="#/" aria-label="Bunny Club — inicio">
+  <a id="corner-logo" href="#" aria-label="Bunny Club — inicio">
     <img src="assets/img/logo-vertical.png" alt="Bunny Club">
   </a>
 
   <!-- PORTADA -->
   <header id="hero">
-    <a id="hero-logo" href="#/" aria-label="Bunny Club">
-      <img src="assets/img/logo-horizontal.png" alt="Bunny Club">
-    </a>
-    <div class="bunnies-float"><img id="hero-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true"></div>
+    <div class="hero-brand">
+      <a id="hero-logo" href="#" aria-label="Bunny Club">
+        <img src="assets/img/logo-horizontal.png" alt="Bunny Club">
+      </a>
+      <div class="bunnies-float"><img id="hero-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true"></div>
+    </div>
   </header>
-
   <div id="menu-sentinel" aria-hidden="true"></div>
-  <!-- MENÚ ANGELICAL -->
-  <nav id="menu" aria-label="Categorías">
-    <svg class="halo" viewBox="0 0 120 30" aria-hidden="true">
-      <ellipse cx="60" cy="15" rx="46" ry="8" fill="none" stroke="currentColor" stroke-width="2.2"/>
-      <ellipse cx="60" cy="15" rx="46" ry="8" fill="none" stroke="#fff" stroke-width="1" opacity=".8" transform="translate(0 -1.2)"/>
-    </svg>
-    <ul class="menu-main" id="menu-main"></ul>
-    <ul class="menu-sub" id="menu-sub" aria-label="Subcategorías"></ul>
-  </nav>
 
   <!-- CATÁLOGO -->
   <main id="catalog-wrap">
@@ -52,6 +44,26 @@
       <a id="f-ig" target="_blank" rel="noopener" hidden>Instagram</a>
     </span>
   </footer>
+
+  <!-- CARRITO (esquina) -->
+  <button id="cart-btn" type="button" aria-label="Abrir carrito">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 9h22l-2.200 13.500a2.500 2.500 0 0 1-2.500 2.100H9.700a2.500 2.500 0 0 1-2.500-2.100z" fill="rgba(255,255,255,.7)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M11 12.500V9a5 5 0 0 1 10 0v3.500" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M16 15.500l1 2.100 2.200.3-1.600 1.600.4 2.200-2-1.100-2 1.100.4-2.200-1.600-1.600 2.200-.3z" fill="#e9a9cb" stroke="currentColor" stroke-width=".8" stroke-linejoin="round"/></svg>
+    <span id="cart-count" hidden>0</span>
+  </button>
+  <aside id="cart" aria-hidden="true">
+    <div class="cart-backdrop" data-cart-close></div>
+    <section class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <button class="cart-x" data-cart-close aria-label="Cerrar carrito"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <h2 id="cart-title">Tu carrito</h2>
+      <ul id="cart-list"></ul>
+      <p id="cart-empty">Todavía no agregaste nada.<br>Elegí algo que te guste.</p>
+      <div id="cart-foot">
+        <p class="cart-total"><span>Total</span><strong id="cart-total">$0</strong></p>
+        <div class="m-wrap-buy"><a id="cart-buy" class="m-buy" target="_blank" rel="noopener"><span>Pedir por WhatsApp</span></a></div>
+        <button id="cart-clear" type="button">Vaciar carrito</button>
+      </div>
+    </section>
+  </aside>
 
   <!-- DETALLE DE PRODUCTO -->
   <div id="modal" class="modal" aria-hidden="true">

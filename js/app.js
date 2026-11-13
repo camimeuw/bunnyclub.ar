@@ -6,17 +6,6 @@
   const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wait = ms => new Promise(r => setTimeout(r, ms));
 
-  /* ---------- estructura de categorías ---------- */
-  const MENU = [
-    { slug: "todo", label: "Todo" },
-    { slug: "indumentaria", label: "Indumentaria", sub: [
-      { slug: "partes-de-arriba", label: "Partes de arriba" },
-      { slug: "partes-de-abajo", label: "Partes de abajo" },
-      { slug: "vestidos", label: "Vestidos" },
-    ] },
-    { slug: "accesorios", label: "Accesorios" },
-  ];
-
   const slugify = s => (s || "").toString().normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const money = n => "$" + new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(n);
 
@@ -68,43 +57,11 @@
   const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
   const between = (r, a, b) => a + r() * (b - a);
 
-  /* ---------- ruta ---------- */
-  function parseRoute() {
-    const parts = location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
-    return { cat: parts[0] || "todo", sub: parts[1] || null };
-  }
-
-  /* ---------- menú ---------- */
-  const menuMain = $("#menu-main"), menuSub = $("#menu-sub");
-  function buildMenu() {
-    menuMain.innerHTML = MENU.filter(m => m.slug !== "todo").map(m => `<li><a href="#/${m.slug}" data-cat="${m.slug}">${m.label}</a></li>`).join("");
-  }
-  function updateMenu(route) {
-    menuMain.querySelectorAll("a").forEach(a => {
-      const on = a.dataset.cat === route.cat && !route.sub;
-      const parent = a.dataset.cat === route.cat;
-      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
-      a.href = on ? "#/" : `#/${a.dataset.cat}`;   // tocar la categoría elegida vuelve a mostrar todo
-      a.dataset.parent = parent ? "1" : "";
-    });
-    const cat = MENU.find(m => m.slug === route.cat);
-    if (cat && cat.sub) {
-      menuSub.innerHTML = [`<li><a href="#/${cat.slug}">Todo</a></li>`, ...cat.sub.map(s => `<li><a href="#/${cat.slug}/${s.slug}">${s.label}</a></li>`)].join("");
-      menuSub.querySelectorAll("a").forEach((a, i) => { const on = route.sub ? a.getAttribute("href") === `#/${cat.slug}/${route.sub}` : i === 0; if (on) a.setAttribute("aria-current", "page"); });
-      requestAnimationFrame(() => menuSub.classList.add("open"));
-    } else menuSub.classList.remove("open");
-  }
-
   /* ---------- catálogo ---------- */
   const catalog = $("#catalog"), empty = $("#empty");
-  const label = r => { const c = MENU.find(m => m.slug === r.cat); if (!c) return "Todo"; const s = c.sub && c.sub.find(x => x.slug === r.sub); return s ? s.label : c.label; };
 
-  function filtered(route) {
-    return PRODUCTS.filter(p => route.cat === "todo" || (p.cat === route.cat && (!route.sub || p.sub === route.sub)));
-  }
-
-  function renderCatalog(route) {
-    const items = filtered(route);
+  function renderCatalog() {
+    const items = PRODUCTS;
     empty.hidden = items.length > 0;
     catalog.innerHTML = "";
     items.forEach((p, i) => {
@@ -130,26 +87,6 @@
     });
   }
 
-  let busy = false, queued = false, firstPaint = true;
-  async function render() {
-    if (busy) { queued = true; return; }
-    busy = true;
-    const route = parseRoute();
-    updateMenu(route);
-    if (!firstPaint && catalog.children.length) {      // los productos se van flotando y entran los nuevos
-      catalog.classList.add("leaving");
-      await wait(REDUCED ? 0 : 900 + Math.min(catalog.children.length, 10) * 50);
-      catalog.classList.remove("leaving");
-    }
-    renderCatalog(route);
-    document.title = route.cat === "todo" ? "Bunny Club" : `${label(route)} — Bunny Club`;
-    if (!firstPaint && document.body.classList.contains("is-stuck")) {
-      const wrap = $("#catalog-wrap"); window.scrollTo({ top: wrap.getBoundingClientRect().top + scrollY - 110, behavior: REDUCED ? "auto" : "smooth" });
-    }
-    firstPaint = false; busy = false;
-    if (queued) { queued = false; render(); }
-  }
-
   /* ---------- modal de producto ---------- */
   const modal = $("#modal");
   const COLORES = { rosa: "#f2b5d4", rosita: "#f6c9df", negro: "#1a1016", blanco: "#ffffff", lila: "#d8b7e8", violeta: "#a67bd0", celeste: "#b8dcf2", azul: "#4a6fbf", rojo: "#d13a4f", bordo: "#7a1f3d", gris: "#b9b4b8", plateado: "#cfd0d6", dorado: "#e4b95a", crema: "#f6ecd9", beige: "#e3cfb4", verde: "#9fcfa7", amarillo: "#f5e08a", marron: "#7b5546", naranja: "#f2a65a", fucsia: "#e0489b" };
@@ -171,7 +108,8 @@
   }
   function updateBuy() {
     const a = $("#m-buy"), p = cur;
-    const parts = [`Hola Bunny Club! 🐰 ${p.agotado ? "Quería consultar si van a reponer" : "Quiero comprar"}: ${p.nombre} (${money(p.precio)})`];
+    if (!p.agotado) { a.href = "#"; return; }                    // disponible: se agrega al carrito
+    const parts = [`Hola Bunny Club! 🐰 Quería consultar si van a reponer: ${p.nombre} (${money(p.precio)})`];
     if (selTalle) parts.push(`Talle: ${selTalle}`);
     if (selColor) parts.push(`Color: ${selColor}`);
     a.href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(parts.join("\n"))}`;
@@ -179,12 +117,12 @@
   function openModal(id) {
     cur = PRODUCTS.find(p => p.id === id); if (!cur) return;
     selTalle = selColor = null; lastFocus = document.activeElement;
-    $("#m-cat").textContent = [cur.catLabel, cur.subLabel].filter(Boolean).join(" · ");
+    $("#m-cat").textContent = "";
     $("#m-name").textContent = cur.nombre; $("#m-price").textContent = money(cur.precio);
     $("#m-desc").textContent = cur.desc || ""; $("#m-hint").textContent = "";
     $("#m-sold").hidden = !cur.agotado;
     const buy = $("#m-buy"); buy.classList.toggle("is-sold", cur.agotado);
-    buy.firstElementChild.textContent = cur.agotado ? "Consultar reposición" : "Comprar por WhatsApp";
+    buy.firstElementChild.textContent = cur.agotado ? "Consultar reposición" : "Agregar al carrito";
     $("#m-talles-wrap").hidden = !cur.talles.length; chips($("#m-talles"), cur.talles, "talle");
     $("#m-colores-wrap").hidden = !cur.colores.length; chips($("#m-colores"), cur.colores, "color");
     $(".m-stage").classList.toggle("single", cur.imgs.length < 2);
@@ -222,6 +160,11 @@
         e.preventDefault();
         $("#m-hint").textContent = `Elegí ${missing.map(m => m[0]).join(" y ")} primero ♡`;
         missing.forEach(([, el]) => { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); });
+      } else if (!cur.agotado) {
+        e.preventDefault();
+        addToCart(cur, selTalle, selColor);
+        $("#m-hint").textContent = "¡Agregado al carrito! ♡";
+        setTimeout(closeModal, 750);
       }
     }
   });
@@ -237,6 +180,48 @@
     st.addEventListener("touchstart", e => x0 = e.touches[0].clientX, { passive: true });
     st.addEventListener("touchend", e => { if (x0 == null || cur.imgs.length < 2) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) showImg(curImg + (dx < 0 ? 1 : -1)); x0 = null; });
   })();
+
+  /* ---------- carrito ---------- */
+  const cartEl = $("#cart"), cartBtn = $("#cart-btn"), cartList = $("#cart-list");
+  let CART = [];
+  try { CART = JSON.parse(localStorage.getItem("bunnyclub-cart") || "[]") || []; } catch (e) { CART = []; }
+  const saveCart = () => { try { localStorage.setItem("bunnyclub-cart", JSON.stringify(CART)); } catch (e) {} };
+  const sameItem = (i, p, t, c) => i.nombre === p.nombre && (i.talle || "") === (t || "") && (i.color || "") === (c || "");
+  function addToCart(p, talle, color) {
+    const it = CART.find(i => sameItem(i, p, talle, color));
+    if (it) it.qty++; else CART.push({ nombre: p.nombre, precio: p.precio, img: p.imgs[0] || "", talle: talle || "", color: color || "", qty: 1 });
+    saveCart(); renderCart();
+    cartBtn.classList.remove("bump"); void cartBtn.offsetWidth; cartBtn.classList.add("bump");
+  }
+  function renderCart() {
+    const count = CART.reduce((n, i) => n + i.qty, 0), total = CART.reduce((n, i) => n + i.qty * i.precio, 0);
+    const badge = $("#cart-count"); badge.textContent = count; badge.hidden = !count;
+    cartEl.classList.toggle("has-items", count > 0);
+    cartList.innerHTML = CART.map((i, k) => `
+      <li class="ci">
+        <div class="ci-pic${i.img ? "" : " empty"}">${i.img ? `<img src="${i.img}" alt="">` : ""}</div>
+        <div class="ci-info"><span class="ci-name">${i.nombre}</span>${i.talle || i.color ? `<span class="ci-opt">${[i.talle && "Talle " + i.talle, i.color].filter(Boolean).join(" · ")}</span>` : ""}<span class="ci-price">${money(i.precio * i.qty)}</span></div>
+        <div class="ci-qty"><button type="button" data-act="dec" data-k="${k}" aria-label="Menos">−</button><span>${i.qty}</span><button type="button" data-act="inc" data-k="${k}" aria-label="Más">+</button></div>
+        <button type="button" class="ci-del" data-act="del" data-k="${k}">Quitar</button>
+      </li>`).join("");
+    $("#cart-total").textContent = money(total);
+    const lines = CART.map(i => `• ${i.qty} x ${i.nombre}${i.talle || i.color ? " (" + [i.talle && "Talle " + i.talle, i.color].filter(Boolean).join(", ") + ")" : ""} - ${money(i.precio * i.qty)}`);
+    $("#cart-buy").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola Bunny Club! 🐰 Quiero hacer este pedido:\n\n${lines.join("\n")}\n\nTotal: ${money(total)}`)}`;
+  }
+  const openCart = () => { cartEl.classList.add("open"); cartEl.setAttribute("aria-hidden", "false"); };
+  const closeCart = () => { cartEl.classList.remove("open"); cartEl.setAttribute("aria-hidden", "true"); };
+  cartBtn.addEventListener("click", openCart);
+  cartEl.addEventListener("click", e => {
+    if (e.target.closest("[data-cart-close]")) return closeCart();
+    if (e.target.closest("#cart-clear")) { CART = []; saveCart(); return renderCart(); }
+    const b = e.target.closest("[data-act]"); if (!b) return;
+    const k = Number(b.dataset.k), it = CART[k]; if (!it) return;
+    if (b.dataset.act === "inc") it.qty++;
+    if (b.dataset.act === "dec") it.qty--;
+    if (b.dataset.act === "del" || it.qty < 1) CART.splice(k, 1);
+    saveCart(); renderCart();
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && cartEl.classList.contains("open")) closeCart(); });
 
   /* ---------- cursor de conejito ---------- */
   function setCursors() {
@@ -281,10 +266,9 @@
   }
 
   async function init() {
-    setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
+    setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
-    window.addEventListener("hashchange", render);
-    render();
+    renderCatalog();
   }
   init();
 })();

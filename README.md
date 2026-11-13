@@ -1,7 +1,7 @@
 # Bunny Club — catálogo
 
 Sitio estático (HTML + CSS + JS, sin instalar nada). Colores: fondo `#F6E2EE`.
-Fuentes: **Wizards Magic** (nombres y precios) · **Burgues Script** (categorías).
+Fuentes: **Wizards Magic** (nombres y precios) · **Mountains of Christmas** (categorías) · **DotGothic16** (descripciones y frases largas) · **MixStitch** (talles y colores).
 
 > Wizards Magic no trae números, `$`, `.` ni tildes (los glifos vienen vacíos), así que para esos
 > caracteres se usa **Almendra** (`assets/fonts/Almendra-Regular.ttf`, licencia OFL). Si conseguís una versión
@@ -48,7 +48,7 @@ Agregá PNGs transparentes en `assets/img/decor/` y listalos en `decoraciones` d
 index.html          página
 css/style.css       estilos y animaciones
 js/config.js        tus datos (WhatsApp, etc.)
-js/app.js           menú, catálogo, modal, cursor, notitas
+js/app.js           menú, catálogo, modal, cursor, detalles
 data/productos.csv  catálogo
 img/                fotos de productos (hoy: ejemplos .svg)
 assets/img/         logos y conejitos (PNG transparentes)

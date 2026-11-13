@@ -256,22 +256,6 @@
       box.appendChild(s);
     }
   }
-  const NOTES = [
-    `<svg viewBox="0 0 24 28"><path d="M9 2l12-2v18.500a5 5 0 1 1-3-4.600V6L12 7.200V21a5 5 0 1 1-3-4.600z"/></svg>`,
-    `<svg viewBox="0 0 16 28"><path d="M5 0h3v20.500a5 5 0 1 1-3-4.600zM8 0c0 6 8 6 8 12-1-3-4-4-8-4z"/></svg>`,
-    `<svg viewBox="0 0 26 26"><path d="M7 3l16-3v17a5 5 0 1 1-3-4.600V5.300L10 7.200V20a5 5 0 1 1-3-4.600z"/></svg>`,
-  ];
-  function spawnNote() {
-    if (REDUCED || document.hidden) return;
-    const home = !document.body.classList.contains("is-stuck");
-    const anchor = home ? $("#hero-logo") : $("#corner-logo");
-    const b = anchor.getBoundingClientRect(); if (!b.width) return;
-    const n = document.createElement("span"); n.className = "note"; n.innerHTML = NOTES[Math.floor(Math.random() * NOTES.length)];
-    const size = home ? 14 + Math.random() * 18 : 10 + Math.random() * 10;
-    const x = b.left + Math.random() * b.width, y = b.top + b.height * (home ? 0.15 + Math.random() * 0.5 : 0.1 + Math.random() * 0.4);
-    n.style.cssText = `left:${x}px;top:${y}px;width:${size}px;--dur:${(6 + Math.random() * 4).toFixed(1)}s;--rise:${Math.round(home ? 90 + Math.random() * 120 : 50 + Math.random() * 60)}px;--sway:${Math.round(-26 + Math.random() * 52)}px;--r0:${Math.round(-20 + Math.random() * 40)}deg;--r1:${Math.round(-25 + Math.random() * 50)}deg;--r2:${Math.round(-35 + Math.random() * 70)}deg`;
-    $("#notes").appendChild(n); n.addEventListener("animationend", () => n.remove());
-  }
   function decorations() {
     const box = $("#decor");
     (CFG.decoraciones || []).forEach(d => {
@@ -300,7 +284,6 @@
     await loadProducts();
     window.addEventListener("hashchange", render);
     render();
-    setInterval(spawnNote, 1500); setTimeout(spawnNote, 1800);
   }
   init();
 })();

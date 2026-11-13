@@ -63,9 +63,9 @@ img { display: block; max-width: 100%; }
 @keyframes float { from { transform: translateY(0); } to { transform: translateY(-14px); } }
 
 /* ---------- encaje pegado a la izquierda (página y carrito) ---------- */
-.lace { background: url("../assets/img/encaje-lateral.png") left top / 100% auto repeat-y; pointer-events: none; }
-.lace-page { position: fixed; top: 0; bottom: 0; left: 0; width: 34px; z-index: 1; animation: appear 2.6s var(--ease) .8s backwards; }
-.cart-lace { position: absolute; top: 24px; bottom: 24px; left: 14px; width: 26px; opacity: .95; }
+.lace { background: url("../assets/img/encaje-lateral.png") right top / 100% auto repeat-y; pointer-events: none; }
+.lace-page { position: fixed; top: 0; bottom: 0; right: 0; width: 34px; z-index: 1; animation: appear 2.6s var(--ease) .8s backwards; }
+.cart-lace { position: absolute; top: 0; bottom: 0; right: 0; width: 30px; }
 
 /* ---------- adorno de la esquina izquierda ---------- */
 .corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(40vw, 520px, calc(50vw - 125px)); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
@@ -273,11 +273,11 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #cart.open { visibility: visible; pointer-events: auto; }
 .cart-backdrop { position: absolute; inset: 0; background: rgba(246,226,238,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity .5s var(--ease); }
 #cart.open .cart-backdrop { opacity: 1; }
-.cart-panel { position: absolute; top: 10px; right: 10px; bottom: 10px; width: min(350px, calc(100% - 20px)); display: flex; flex-direction: column; padding: 18px 16px 16px 52px;
+.cart-panel { position: absolute; top: 10px; right: 10px; bottom: 10px; width: min(350px, calc(100% - 20px)); display: flex; flex-direction: column; padding: 18px 44px 16px 18px; overflow: hidden;
   background: linear-gradient(170deg, rgba(255,255,255,.95), rgba(253,238,246,.92)); border: 1px solid #fff; border-radius: 26px;
   box-shadow: 0 0 0 5px rgba(255,255,255,.45), 0 24px 60px -18px rgba(150,60,110,.55); transform: translateX(110%); transition: transform .7s var(--ease); }
 #cart.open .cart-panel { transform: none; }
-.cart-x { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.8); display: grid; place-items: center; }
+.cart-x { position: absolute; top: 12px; right: 40px; z-index: 2; width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,.8); display: grid; place-items: center; }
 .cart-x svg { width: 13px; }
 .cart-panel h2 { font-family: var(--font-script); font-weight: 700; font-size: 32px; line-height: 1.1; margin: 0 0 8px; }
 #cart-list { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 10px; padding: 2px 2px 6px; }

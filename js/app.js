@@ -265,6 +265,12 @@
     });
   }
 
+  /* ---------- títulos tipo flyer ---------- */
+  function titles() {
+    const t = Object.assign({ superior: "angelic bunny", subtitulo: "ANGEL MENU", cierre: "The Bunny's Banquet" }, CFG.titulos || {});
+    $("#fh-kicker").textContent = t.superior; $("#fh-sub").textContent = t.subtitulo; $("#fh-close").textContent = t.cierre;
+  }
+
   /* ---------- pie ---------- */
   function footer() {
     $("#f-wa").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent("Hola Bunny Club! 🐰")}`;
@@ -302,7 +308,7 @@
   }
 
   async function init() {
-    setupSplash(); setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
+    setupSplash(); setCursors(); buildMenu(); titles(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     window.addEventListener("hashchange", render);
     render();

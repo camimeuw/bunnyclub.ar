@@ -24,7 +24,7 @@
   <!-- PANTALLA DE INICIO (solo celular) -->
   <section id="splash" aria-label="Bienvenida">
     <a id="splash-logo" aria-hidden="true" tabindex="-1"><img src="assets/img/logo-horizontal.png" alt=""></a>
-    <div class="runway" aria-hidden="true" style="--k:1.35"><span class="runner" style="--w:84px;--dur:8s;--delay:0s"><i class="sprite"></i></span><span class="runner" style="--w:70px;--dur:9s;--delay:-3s"><i class="sprite"></i></span><span class="runner" style="--w:96px;--dur:7.5s;--delay:-5.5s"><i class="sprite"></i></span></div>
+    <img class="splash-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true">
     <button id="splash-enter" type="button"><span>Entrar</span></button>
   </section>
 
@@ -33,7 +33,7 @@
     <a id="hero-logo" href="#/" aria-label="Bunny Club">
       <img src="assets/img/logo-horizontal.png" alt="Bunny Club">
     </a>
-    <div class="runway" id="runway" aria-hidden="true"><span class="runner" style="--w:84px;--dur:10s;--delay:0s"><i class="sprite"></i></span><span class="runner" style="--w:70px;--dur:11s;--delay:-3.6s"><i class="sprite"></i></span><span class="runner" style="--w:96px;--dur:9.5s;--delay:-7s"><i class="sprite"></i></span></div>
+    <img id="hero-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true">
   </header>
 
   <div id="menu-sentinel" aria-hidden="true"></div>
@@ -49,9 +49,14 @@
 
   <!-- CATÁLOGO -->
   <main id="catalog-wrap">
-    <h1 id="catalog-title"></h1>
+    <div class="flyer-head">
+      <p class="fh-kicker" id="fh-kicker"></p>
+      <h1 id="catalog-title"></h1>
+      <p class="fh-line"><i class="orn"></i><span id="fh-sub"></span><i class="orn"></i></p>
+    </div>
     <ul id="catalog"></ul>
     <p id="empty" hidden>Pronto vas a encontrar todo lo nuevo acá ♡</p>
+    <p class="fh-close"><i class="orn"></i><span id="fh-close"></span><i class="orn"></i></p>
   </main>
 
   <footer id="footer">

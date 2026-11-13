@@ -77,13 +77,14 @@
   /* ---------- menú ---------- */
   const menuMain = $("#menu-main"), menuSub = $("#menu-sub");
   function buildMenu() {
-    menuMain.innerHTML = MENU.map(m => `<li><a href="#/${m.slug}" data-cat="${m.slug}">${m.label}</a></li>`).join("");
+    menuMain.innerHTML = MENU.filter(m => m.slug !== "todo").map(m => `<li><a href="#/${m.slug}" data-cat="${m.slug}">${m.label}</a></li>`).join("");
   }
   function updateMenu(route) {
     menuMain.querySelectorAll("a").forEach(a => {
       const on = a.dataset.cat === route.cat && !route.sub;
       const parent = a.dataset.cat === route.cat;
       if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+      a.href = on ? "#/" : `#/${a.dataset.cat}`;   // tocar la categoría elegida vuelve a mostrar todo
       a.dataset.parent = parent ? "1" : "";
     });
     const cat = MENU.find(m => m.slug === route.cat);
@@ -117,10 +118,10 @@
       li.innerHTML = `
         <button class="item-btn" data-id="${p.id}" aria-label="Ver ${p.nombre}">
           <div class="float"><div class="tilt">
-            <div class="pic${alt ? " has-alt" : ""}">
+            <div class="pic${alt ? " has-alt" : ""}${p.imgs.length ? "" : " empty"}">
               <span class="badge">${i + 1}</span>
               ${p.agotado ? '<span class="sold">Agotado</span>' : ""}
-              <img class="main" src="${p.imgs[0] || ""}" alt="${p.nombre}" loading="lazy">
+              ${p.imgs[0] ? `<img class="main" src="${p.imgs[0]}" alt="${p.nombre}" loading="lazy">` : ""}
               ${alt ? `<img class="alt" src="${alt}" alt="" loading="lazy">` : ""}
             </div>
             <div class="cap"><span class="name">${p.nombre}</span><span class="price">${money(p.precio)}</span></div>
@@ -163,7 +164,9 @@
     }).join("");
   }
   function showImg(i, animate = true) {
-    const img = $("#m-img"); curImg = (i + cur.imgs.length) % cur.imgs.length;
+    const img = $("#m-img"); $(".m-stage").classList.toggle("empty", !cur.imgs.length); img.hidden = !cur.imgs.length;
+    if (!cur.imgs.length) return;
+    curImg = (i + cur.imgs.length) % cur.imgs.length;
     const set = () => { img.src = cur.imgs[curImg]; img.alt = cur.nombre; img.classList.remove("swap"); };
     if (animate && !REDUCED) { img.classList.add("swap"); setTimeout(set, 250); } else set();
     document.querySelectorAll("#m-thumbs button").forEach((b, k) => b.setAttribute("aria-current", k === curImg));
@@ -277,28 +280,6 @@
     if (CFG.instagram) { const ig = $("#f-ig"); ig.href = `https://instagram.com/${CFG.instagram.replace(/^@/, "")}`; ig.hidden = false; }
   }
 
-  /* ---------- pantalla de inicio (celular) ---------- */
-  function setupSplash() {
-    const splash = $("#splash");
-    if (!document.body.classList.contains("has-splash")) { splash && splash.remove(); return; }
-    window.scrollTo(0, 0);
-    $("#splash-enter").addEventListener("click", enterShop, { once: true });
-  }
-  function enterShop() {
-    const body = document.body, splash = $("#splash"), sl = $("#splash-logo"), hl = $("#hero-logo");
-    const finish = () => { hl.classList.add("revealed"); body.classList.remove("has-splash", "splash-leaving"); splash.remove(); window.scrollTo(0, 0); };
-    if (REDUCED || !sl.animate) return finish();
-    window.scrollTo(0, 0);
-    const from = sl.getBoundingClientRect(), to = hl.getBoundingClientRect();
-    sl.querySelector("img").style.animation = "none";
-    body.classList.add("splash-leaving");                       // la tienda empieza a aparecer
-    const anim = sl.animate([
-      { transform: "none" },
-      { transform: `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${to.width / from.width})` },
-    ], { duration: 1500, easing: "cubic-bezier(.65, 0, .35, 1)", fill: "forwards" });
-    anim.onfinish = finish;
-  }
-
   /* ---------- arranque ---------- */
   function watchScroll() {
     const sentinel = $("#menu-sentinel"); let tick = false;
@@ -308,7 +289,7 @@
   }
 
   async function init() {
-    setupSplash(); setCursors(); buildMenu(); titles(); sparkles(); decorations(); footer(); watchScroll();
+    setCursors(); buildMenu(); titles(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     window.addEventListener("hashchange", render);
     render();

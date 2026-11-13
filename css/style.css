@@ -63,7 +63,9 @@ img { display: block; max-width: 100%; }
 @keyframes float { from { transform: translateY(0); } to { transform: translateY(-14px); } }
 
 /* ---------- adorno de la esquina izquierda ---------- */
-.corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(25vw, 290px); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
+.corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(33vw, 400px); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
+
+.corner-orn--r { left: auto; right: 0; top: 0; width: min(25vw, 320px); animation-delay: .9s; }
 
 /* ---------- portada (arriba de todo) ---------- */
 @keyframes floatSoft { from { transform: translateY(0); } to { transform: translateY(-5px); } }
@@ -177,7 +179,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* botón de comprar — 4 estilos, se elige con estiloBoton en js/config.js (1 a 4) */
 .m-buy { position: relative; align-self: flex-start; margin-top: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 28px 12px;
-  font-family: var(--font-info); font-weight: 700; -webkit-text-stroke: .5px currentColor; font-size: 16px; letter-spacing: .05em; line-height: 1.1; color: #4a1636;
+  font-family: var(--font-info); font-weight: 400; font-size: 16px; letter-spacing: .05em; line-height: 1.1; color: #4a1636;
   transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .4s, color .4s; }
 .m-buy:hover { transform: translateY(-2px); }
 .m-buy:active { transform: translateY(1px); }
@@ -219,7 +221,8 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
-  .corner-orn { width: 29vw; top: 4px; left: 4px; }
+  .corner-orn { width: 30vw; top: 4px; left: 4px; }
+  .corner-orn--r { width: 25vw; top: 0; left: auto; right: 0; }
   #hero { padding-top: 2vh; }
   .hero-brand { width: min(40vw, 160px); }
   .bunnies-float { margin-top: -13%; }
@@ -230,7 +233,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 }
 
 /* ---------- carrito ---------- */
-#cart-btn { position: fixed; z-index: 40; top: 10px; right: 12px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--ink);
+#cart-btn { position: fixed; z-index: 40; bottom: 16px; right: 14px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--ink);
   background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.55)); border: 1px solid #fff;
   box-shadow: 0 0 0 4px rgba(255,255,255,.4), 0 8px 22px -8px rgba(184,88,139,.6), inset 0 0 14px #fff; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   transition: transform .4s var(--ease); }

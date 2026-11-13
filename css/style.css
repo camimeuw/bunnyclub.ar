@@ -91,7 +91,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #catalog-wrap { position: relative; z-index: 3; padding: 0 clamp(10px, 3vw, 40px) 28px; max-width: 1240px; margin: 0 auto; }
 #catalog-wrap { min-height: 55vh; scroll-margin-top: 120px; }
 
-#catalog { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: start; gap: 46px 34px; max-width: 1090px; margin: 0 auto; padding: 70px 0 26px; }
+#catalog { display: grid; grid-template-columns: repeat(3, 1fr); justify-items: center; align-items: start; gap: 26px 4px; max-width: 980px; margin: 0 auto; padding: 70px 0 26px; }
 #catalog .item:nth-child(3n+2) { margin-top: calc(var(--dy) + 64px); }
 .item { position: relative; width: var(--w); margin-top: var(--dy); margin-left: var(--dx); animation: floatIn 2.8s var(--ease) var(--delay) backwards; }
 #catalog.leaving .item { animation: floatOut .9s var(--ease) var(--out) forwards; }
@@ -119,8 +119,8 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #empty { text-align: center; font-family: var(--font-info); font-size: 18px; line-height: 1.7; padding: 60px 0; }
 
 @media (max-width: 640px) {
-  #catalog { gap: 26px 4px; max-width: none; }
-  .item { width: calc(20vw + var(--k) * .28vw); margin-left: calc(var(--dx) * .2); margin-top: calc(var(--dy) * .5); }
+  #catalog { gap: 14px 2px; max-width: none; padding-left: 4vw; padding-right: 4vw; }
+  .item { width: calc(18vw + var(--k) * .27vw); margin-left: calc(var(--dx) * .2); margin-top: calc(var(--dy) * .5); }
   #catalog .item:nth-child(3n+2) { margin-top: calc(var(--dy) * .5 + 34px); }
   .item .badge { width: 20px; height: 20px; font-size: 11px; }
 }

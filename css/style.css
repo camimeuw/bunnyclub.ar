@@ -35,6 +35,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a, button, [role="radio"], .item-btn { cursor: var(--cursor-hover); }
+/* sin cuadrado azul al tocar (resaltado del celular / aro de foco del navegador) */
+* { -webkit-tap-highlight-color: transparent; }
+.item-btn, .m-stage, .m-thumbs button { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.item-btn:focus, .modal-card:focus, .m-close:focus, .chip:focus, .m-buy:focus, #cart-btn:focus { outline: none; }
+.item img, .m-stage img { -webkit-user-drag: none; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; }
 ul { list-style: none; padding: 0; }
@@ -56,6 +61,10 @@ img { display: block; max-width: 100%; }
 @keyframes floatIn { from { opacity: 0; transform: translateY(90px) scale(.96); filter: blur(8px); } 55% { opacity: 1; } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes floatOut { to { opacity: 0; transform: translateY(-80px) scale(.96); filter: blur(8px); } }
 @keyframes float { from { transform: translateY(0); } to { transform: translateY(-14px); } }
+
+/* ---------- adorno de la esquina izquierda ---------- */
+.corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(20vw, 230px); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
+.corner-orn img { width: 100%; animation: floatSoft 6s ease-in-out 3.5s infinite alternate; }
 
 /* ---------- portada (arriba de todo) ---------- */
 @keyframes floatSoft { from { transform: translateY(0); } to { transform: translateY(-5px); } }
@@ -199,6 +208,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
+  .corner-orn { width: 26vw; top: 4px; left: 4px; }
   #hero { padding-top: 2vh; }
   .hero-brand { width: min(40vw, 160px); }
   .bunnies-float { margin-top: -13%; }

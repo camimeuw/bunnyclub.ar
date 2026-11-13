@@ -138,7 +138,7 @@
     showImg(0, false); updateBuy();
     modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    setTimeout(() => $(".m-close").focus(), 50);
+    setTimeout(() => $(".modal-card").focus({ preventScroll: true }), 50);
   }
   function closeModal() {
     modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = "";

@@ -62,6 +62,11 @@ img { display: block; max-width: 100%; }
 @keyframes floatOut { to { opacity: 0; transform: translateY(-80px) scale(.96); filter: blur(8px); } }
 @keyframes float { from { transform: translateY(0); } to { transform: translateY(-14px); } }
 
+/* ---------- encaje pegado a la izquierda (página y carrito) ---------- */
+.lace { background: url("../assets/img/encaje-lateral.png") left top / 100% auto repeat-y; pointer-events: none; }
+.lace-page { position: fixed; top: 0; bottom: 0; left: 0; width: 34px; z-index: 1; animation: appear 2.6s var(--ease) .8s backwards; }
+.cart-lace { position: absolute; top: 24px; bottom: 24px; left: 14px; width: 26px; opacity: .95; }
+
 /* ---------- adorno de la esquina izquierda ---------- */
 .corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(40vw, 520px, calc(50vw - 125px)); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
 
@@ -242,6 +247,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 
 /* ---------- celular ---------- */
 @media (max-width: 640px) {
+  .lace-page { width: 22px; }
   .corner-orn { width: 36vw; top: 4px; left: 4px; }
   .corner-orn.corner-orn--br { width: 52vw; top: auto; left: auto; right: 0; bottom: 0; }
   #hero { padding-top: 2vh; }
@@ -267,7 +273,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 #cart.open { visibility: visible; pointer-events: auto; }
 .cart-backdrop { position: absolute; inset: 0; background: rgba(246,226,238,.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity .5s var(--ease); }
 #cart.open .cart-backdrop { opacity: 1; }
-.cart-panel { position: absolute; top: 10px; right: 10px; bottom: 10px; width: min(350px, calc(100% - 20px)); display: flex; flex-direction: column; padding: 18px 16px 16px;
+.cart-panel { position: absolute; top: 10px; right: 10px; bottom: 10px; width: min(350px, calc(100% - 20px)); display: flex; flex-direction: column; padding: 18px 16px 16px 52px;
   background: linear-gradient(170deg, rgba(255,255,255,.95), rgba(253,238,246,.92)); border: 1px solid #fff; border-radius: 26px;
   box-shadow: 0 0 0 5px rgba(255,255,255,.45), 0 24px 60px -18px rgba(150,60,110,.55); transform: translateX(110%); transition: transform .7s var(--ease); }
 #cart.open .cart-panel { transform: none; }

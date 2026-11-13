@@ -112,7 +112,7 @@
       const r = rng(p.id * 7919 + 13);
       const li = document.createElement("li");
       li.className = "item" + (i % 2 ? " flip" : "") + (p.agotado ? " is-sold" : "");
-      const w = Math.round(between(r, 210, 330));
+      const w = Math.round(between(r, 170, 260));
       li.style.cssText = `--w:${w}px;--r:${between(r, -7, 7).toFixed(1)}deg;--dy:${Math.round(between(r, -10, 60))}px;--dx:${Math.round(between(r, -30, 30))}px;--delay:${(0.15 + i * 0.22).toFixed(2)}s;--out:${(i * 0.05).toFixed(2)}s;--fd:${between(r, 7, 12).toFixed(1)}s;--fdl:${(-between(r, 0, 8)).toFixed(1)}s`;
       const alt = p.imgs[1];
       li.innerHTML = `

@@ -50,8 +50,10 @@ El carrito está en la esquina de arriba a la derecha. Al abrir un producto se e
 El carrito suma el total y arma el pedido por WhatsApp (botón *Pedir por WhatsApp*). Se guarda en el navegador de cada clienta.
 Los productos marcados como agotados no se agregan: ofrecen *Consultar reposición* por WhatsApp.
 
-## Categorías
-Por ahora no se muestran en la página (las columnas `categoria` y `subcategoria` del Excel quedan guardadas para cuando se vuelvan a usar).
+## Menú
+El botón de arriba a la derecha, debajo del carrito, abre el menú: categorías con subcategorías (filtran los productos), Talles, Envíos y Contacto.
+Las categorías se leen de las columnas `categoria` y `subcategoria` del Excel (Indumentaria: Partes de arriba, Partes de abajo, Vestidos · Accesorios).
+Los textos de Talles y Envíos se editan en `js/config.js`, en `info`.
 
 ## 4. Decoraciones laterales
 Agregá PNGs transparentes en `assets/img/decor/` y listalos en `decoraciones` de `js/config.js`.

@@ -11,6 +11,17 @@ window.BUNNY = {
   // Estilo del botón de comprar / pedir (1 a 4):
   //   1 = pixel retro · 2 = píldora brillante · 3 = contorno punteado · 4 = etiqueta con muescas
   estiloBoton: 1,   // elegido: pixel retro
+  // Textos del menú (editalos a tu gusto; cada línea es un renglón)
+  info: {
+    talles: [
+      "Talles disponibles: S, M y L (cada producto indica los suyos).",
+      "Si tenés dudas con tu talle, escribinos por WhatsApp y te ayudamos a elegir."
+    ],
+    envios: [
+      "Coordinamos el envío por WhatsApp al confirmar tu pedido.",
+      "Te pasamos el costo y el tiempo de entrega según tu zona."
+    ]
+  },
   carpetaImagenes: "img/",              // donde están las fotos de los productos
   // Decoraciones en los costados (PNG transparentes). Ejemplo:
   // { src: "assets/img/decor/estrella.png", lado: "izquierda", top: "25%", ancho: 120, rotacion: -8 }

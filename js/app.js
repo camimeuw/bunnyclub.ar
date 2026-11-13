@@ -69,8 +69,19 @@
   const catalog = $("#catalog"), empty = $("#empty");
 
   const SIZES = [470, 330, 380, 290, 440, 320, 480, 295, 400, 400];
+  const MENU = [
+    { slug: "indumentaria", label: "Indumentaria", sub: [
+      { slug: "partes-de-arriba", label: "Partes de arriba" },
+      { slug: "partes-de-abajo", label: "Partes de abajo" },
+      { slug: "vestidos", label: "Vestidos" },
+    ] },
+    { slug: "accesorios", label: "Accesorios" },
+  ];
+  let FILTER = { cat: "todo", sub: null };
+  const filtered = () => PRODUCTS.filter(p => FILTER.cat === "todo" || (p.cat === FILTER.cat && (!FILTER.sub || p.sub === FILTER.sub)));
   function renderCatalog() {
-    const items = PRODUCTS;
+    const items = filtered();
+    catalog.classList.toggle("plain", FILTER.cat !== "todo");   // filtrado: grilla limpia, sin los ajustes de posición
     empty.hidden = items.length > 0;
     catalog.innerHTML = "";
     items.forEach((p, i) => {
@@ -94,7 +105,57 @@
         </button>`;
       catalog.appendChild(li);
     });
+    // moños en los lugares libres de la última fila
+    const cols = matchMedia("(max-width: 640px)").matches ? 3 : 3, free = (cols - items.length % cols) % cols;
+    const bows = free === 1 ? [{ f: "mono-rosa.svg", w: 150, r: -12 }] : [{ f: "mono-negro.svg", w: 90, r: 14 }, { f: "mono-rosa.svg", w: 150, r: -12 }];
+    for (let k = 0; k < free && items.length; k++) {
+      const b = bows[k], d = document.createElement("li");
+      d.className = "deco-bow"; d.setAttribute("aria-hidden", "true");
+      d.style.cssText = `--bw:${b.w}px;--br:${b.r}deg;--bd:${(2.4 + k * .5).toFixed(1)}s`;
+      d.innerHTML = `<img src="assets/img/${b.f}" alt="">`;
+      catalog.appendChild(d);
+    }
   }
+
+  /* ---------- menú (categorías, talles, envíos, contacto) ---------- */
+  const mpanel = $("#mpanel"), menuBtn = $("#menu-btn");
+  function buildMenuPanel() {
+    $("#mp-cats").innerHTML = `<button type="button" class="mp-cat" data-cat="todo">Ver todo</button>` + MENU.map(m =>
+      `<button type="button" class="mp-cat" data-cat="${m.slug}">${m.label}</button>` +
+      (m.sub ? `<div class="mp-subs">${m.sub.map(s => `<button type="button" class="mp-sub" data-cat="${m.slug}" data-sub="${s.slug}">${s.label}</button>`).join("")}</div>` : "")).join("");
+    const info = CFG.info || {};
+    const lines = a => (a || []).map(t => `<p>${t}</p>`).join("");
+    $("#mp-talles").innerHTML = lines(info.talles);
+    $("#mp-envios").innerHTML = lines(info.envios);
+    const wa = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent("Hola Bunny Club! 🐰")}`;
+    $("#mp-contacto").innerHTML = `<ul><li><a href="${wa}" target="_blank" rel="noopener">WhatsApp</a></li>` +
+      (CFG.instagram ? `<li><a href="https://instagram.com/${CFG.instagram.replace(/^@/, "")}" target="_blank" rel="noopener">Instagram @${CFG.instagram.replace(/^@/, "")}</a></li>` : "") + `</ul>`;
+    markMenu();
+  }
+  function markMenu() {
+    mpanel.querySelectorAll(".mp-cat").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && !FILTER.sub)));
+    mpanel.querySelectorAll(".mp-sub").forEach(b => b.setAttribute("aria-current", String(b.dataset.cat === FILTER.cat && b.dataset.sub === FILTER.sub)));
+  }
+  let filtering = false;
+  async function applyFilter(cat, sub) {
+    if (filtering || (FILTER.cat === cat && FILTER.sub === (sub || null))) return;
+    filtering = true; FILTER = { cat, sub: sub || null }; markMenu();
+    catalog.classList.add("leaving");
+    await wait(REDUCED ? 0 : 900 + Math.min(catalog.children.length, 10) * 50);
+    catalog.classList.remove("leaving");
+    renderCatalog();
+    if (scrollY > 120) window.scrollTo({ top: 0, behavior: REDUCED ? "auto" : "smooth" });
+    filtering = false;
+  }
+  const openMenu = () => { mpanel.classList.add("open"); mpanel.setAttribute("aria-hidden", "false"); menuBtn.setAttribute("aria-expanded", "true"); };
+  const closeMenu = () => { mpanel.classList.remove("open"); mpanel.setAttribute("aria-hidden", "true"); menuBtn.setAttribute("aria-expanded", "false"); };
+  menuBtn.addEventListener("click", openMenu);
+  mpanel.addEventListener("click", e => {
+    if (e.target.closest("[data-menu-close]")) return closeMenu();
+    const b = e.target.closest(".mp-cat, .mp-sub"); if (!b) return;
+    closeMenu(); applyFilter(b.dataset.cat, b.dataset.sub);
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && mpanel.classList.contains("open")) closeMenu(); });
 
   /* ---------- modal de producto ---------- */
   const modal = $("#modal");
@@ -284,6 +345,7 @@
     revealOnView();
     document.body.dataset.btn = String(CFG.estiloBoton || 1); setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
+    buildMenuPanel();
     renderCatalog();
   }
   init();

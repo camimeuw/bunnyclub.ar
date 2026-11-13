@@ -274,7 +274,14 @@
     check();
   }
 
+  function revealOnView() {
+    const el = $(".corner-orn--br"); if (!el) return;
+    if (!("IntersectionObserver" in window) || REDUCED) return el.classList.add("in");
+    new IntersectionObserver((es, ob) => { if (es.some(e => e.isIntersecting)) { el.classList.add("in"); ob.disconnect(); } }, { threshold: 0.15 }).observe(el);
+  }
+
   async function init() {
+    revealOnView();
     document.body.dataset.btn = String(CFG.estiloBoton || 1); setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     renderCatalog();

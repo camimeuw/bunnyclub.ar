@@ -25,7 +25,7 @@
 
 * { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
-body {
+body { position: relative;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
@@ -65,7 +65,11 @@ img { display: block; max-width: 100%; }
 /* ---------- adorno de la esquina izquierda ---------- */
 .corner-orn { position: absolute; top: 6px; left: 6px; z-index: 1; width: min(38vw, 470px, calc(50vw - 125px)); pointer-events: none; animation: appear 2.6s var(--ease) .6s backwards; }
 
-.corner-orn--r { left: auto; right: 0; top: 0; width: min(30vw, 390px, calc(50vw - 125px)); animation-delay: .9s; }
+.corner-orn--r { left: auto; right: 0; top: 0; width: min(32vw, 420px, calc(50vw - 125px)); animation-delay: .9s; }
+
+/* abajo a la derecha: sin flotar, aparece suave al llegar */
+.corner-orn--br { top: auto; left: auto; right: 0; bottom: 0; z-index: 1; width: min(46vw, 560px); animation: none; opacity: 0; filter: blur(8px); transition: opacity 2.6s var(--ease), filter 2.6s var(--ease); }
+.corner-orn--br.in { opacity: 1; filter: none; }
 
 /* ---------- portada (arriba de todo) ---------- */
 @keyframes floatSoft { from { transform: translateY(0); } to { transform: translateY(-5px); } }
@@ -238,6 +242,7 @@ body.is-stuck #corner-logo:hover { transform: scale(1.06) rotate(-2deg); }
 @media (max-width: 640px) {
   .corner-orn { width: 31vw; top: 4px; left: 4px; }
   .corner-orn--r { width: 29vw; top: 0; left: auto; right: 0; }
+  .corner-orn.corner-orn--br { width: 52vw; top: auto; left: auto; right: 0; bottom: 0; }
   #hero { padding-top: 2vh; }
   .hero-brand { width: min(40vw, 160px); }
   .bunnies-float { margin-top: -13%; }

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <script>if (matchMedia("(max-width: 640px)").matches && !location.hash.replace(/^#\/?/, "")) document.body.classList.add("has-splash");</script>
 
   <div id="sparkles" aria-hidden="true"></div>
   <div id="decor" aria-hidden="true"></div>
@@ -20,12 +21,19 @@
     <img src="assets/img/logo-vertical.png" alt="Bunny Club">
   </a>
 
+  <!-- PANTALLA DE INICIO (solo celular) -->
+  <section id="splash" aria-label="Bienvenida">
+    <a id="splash-logo" aria-hidden="true" tabindex="-1"><img src="assets/img/logo-horizontal.png" alt=""></a>
+    <div class="runway" aria-hidden="true" style="--k:1.35"><span class="runner" style="--w:84px;--dur:8s;--delay:0s"><i class="sprite"></i></span><span class="runner" style="--w:70px;--dur:9s;--delay:-3s"><i class="sprite"></i></span><span class="runner" style="--w:96px;--dur:7.5s;--delay:-5.5s"><i class="sprite"></i></span></div>
+    <button id="splash-enter" type="button"><span>Entrar</span></button>
+  </section>
+
   <!-- PORTADA -->
   <header id="hero">
     <a id="hero-logo" href="#/" aria-label="Bunny Club">
       <img src="assets/img/logo-horizontal.png" alt="Bunny Club">
     </a>
-    <img id="hero-bunnies" src="assets/img/conejitos.png" alt="" aria-hidden="true">
+    <div class="runway" id="runway" aria-hidden="true"><span class="runner" style="--w:84px;--dur:10s;--delay:0s"><i class="sprite"></i></span><span class="runner" style="--w:70px;--dur:11s;--delay:-3.6s"><i class="sprite"></i></span><span class="runner" style="--w:96px;--dur:9.5s;--delay:-7s"><i class="sprite"></i></span></div>
   </header>
 
   <div id="menu-sentinel" aria-hidden="true"></div>

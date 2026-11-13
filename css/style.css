@@ -61,7 +61,15 @@ img { display: block; max-width: 100%; }
 #hero { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.5vh, 16px); padding: 2.5vh 16px 0; }
 #hero-logo { display: block; width: min(72vw, 400px); animation: appear 2.6s var(--ease) .2s backwards; }
 #hero-logo img { width: 100%; animation: float 9s ease-in-out 3s infinite alternate; }
-#hero-bunnies { width: min(40vw, 180px); animation: appear 2.6s var(--ease) 1.1s backwards; }
+
+/* ---------- conejitos que corren ---------- */
+.runway { position: relative; width: 100%; height: calc(68px * var(--k, 1)); overflow: hidden; pointer-events: none; }
+#hero .runway { align-self: stretch; margin: 0 -16px; width: auto; animation: appear 2.6s var(--ease) 1.1s backwards; }
+.runner { --ww: calc(var(--w) * var(--k, 1)); position: absolute; left: 0; bottom: 0; width: var(--ww); aspect-ratio: 336 / 222; transform: translateX(calc(var(--ww) * -1)); animation: run var(--dur) linear var(--delay) infinite; will-change: transform; }
+.sprite { display: block; width: 100%; height: 100%; background: url("../assets/img/conejo-sprite.png") 0 0 / calc(var(--ww) * 4) 100% no-repeat; animation: gallop .5s steps(4) infinite, hop .5s ease-in-out infinite alternate; }
+@keyframes gallop { to { background-position: calc(var(--ww) * -4) 0; } }
+@keyframes hop { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+@keyframes run { 0% { transform: translateX(calc(var(--ww) * -1)); } 88%, 100% { transform: translateX(100vw); } }
 
 /* ---------- logo de la esquina (aparece al bajar) ---------- */
 #corner-logo {
@@ -225,8 +233,34 @@ body.is-stuck .menu-main a { font-size: clamp(22px, 2.5vw, 26px); padding: 5px 2
   .m-thumbs button { width: 54px; height: 54px; }
 }
 
+/* ---------- PANTALLA DE INICIO (solo celular) ---------- */
+#splash { display: none; }
+body.has-splash { overflow: hidden; height: 100svh; }
+body.has-splash #splash { position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3.5vh; padding: 0 16px; background: var(--bg); transition: background .9s var(--ease); }
+body.has-splash #splash::before, body.has-splash #splash::after { content: ""; position: absolute; left: 50%; width: 140%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.7), rgba(255,255,255,0) 65%); transform: translateX(-50%); pointer-events: none; }
+body.has-splash #splash::before { top: -75%; } body.has-splash #splash::after { bottom: -75%; }
+#splash-logo { display: block; width: min(90vw, 420px); transform-origin: 0 0; animation: appear 2.6s var(--ease) .2s backwards; z-index: 1; }
+#splash-logo img { width: 100%; animation: float 9s ease-in-out 3s infinite alternate; }
+#splash .runway { width: 100%; z-index: 1; animation: appear 2.6s var(--ease) 1s backwards; }
+#splash-enter { position: relative; z-index: 1; font-family: var(--font-script); font-weight: 700; font-size: 38px; line-height: 1.2; padding: 12px 64px 14px; border-radius: 999px; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.45)); border: 1px solid #fff; box-shadow: 0 0 0 5px rgba(255,255,255,.4), 0 0 34px rgba(255,255,255,.95), 0 12px 30px -10px rgba(184,88,139,.7), inset 0 0 18px #fff; animation: appear 2.6s var(--ease) 1.7s backwards, glow 3.2s ease-in-out 4.3s infinite alternate; }
+#splash-enter:active { transform: scale(.96); }
+@keyframes glow { to { box-shadow: 0 0 0 8px rgba(255,255,255,.55), 0 0 50px rgba(255,255,255,1), 0 12px 30px -10px rgba(184,88,139,.7), inset 0 0 18px #fff; } }
+/* mientras está la bienvenida, la tienda espera; al entrar, flota hacia su lugar */
+body.has-splash:not(.splash-leaving) #menu,
+body.has-splash:not(.splash-leaving) .item,
+body.has-splash:not(.splash-leaving) #hero .runway,
+body.has-splash:not(.splash-leaving) #catalog-title { animation-play-state: paused; }
+body.has-splash #hero-logo { animation: none; opacity: 0; }
+#hero-logo.revealed { animation: none; opacity: 1; }
+body.splash-leaving #splash { background: transparent; pointer-events: none; }
+body.splash-leaving #splash::before, body.splash-leaving #splash::after { opacity: 0; transition: opacity .8s; }
+body.splash-leaving #splash-enter, body.splash-leaving #splash .runway { opacity: 0; transition: opacity .6s var(--ease); animation: none; }
+
 /* ---------- accesibilidad: menos movimiento ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; animation-delay: 0s !important; }
   .spark { display: none; }
+  .runner { animation: none !important; position: static; transform: none; margin: 0 auto; }
+  .runner ~ .runner { display: none; }
+  .runway { display: flex; justify-content: center; }
 }

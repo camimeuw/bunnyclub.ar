@@ -271,6 +271,28 @@
     if (CFG.instagram) { const ig = $("#f-ig"); ig.href = `https://instagram.com/${CFG.instagram.replace(/^@/, "")}`; ig.hidden = false; }
   }
 
+  /* ---------- pantalla de inicio (celular) ---------- */
+  function setupSplash() {
+    const splash = $("#splash");
+    if (!document.body.classList.contains("has-splash")) { splash && splash.remove(); return; }
+    window.scrollTo(0, 0);
+    $("#splash-enter").addEventListener("click", enterShop, { once: true });
+  }
+  function enterShop() {
+    const body = document.body, splash = $("#splash"), sl = $("#splash-logo"), hl = $("#hero-logo");
+    const finish = () => { hl.classList.add("revealed"); body.classList.remove("has-splash", "splash-leaving"); splash.remove(); window.scrollTo(0, 0); };
+    if (REDUCED || !sl.animate) return finish();
+    window.scrollTo(0, 0);
+    const from = sl.getBoundingClientRect(), to = hl.getBoundingClientRect();
+    sl.querySelector("img").style.animation = "none";
+    body.classList.add("splash-leaving");                       // la tienda empieza a aparecer
+    const anim = sl.animate([
+      { transform: "none" },
+      { transform: `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${to.width / from.width})` },
+    ], { duration: 1500, easing: "cubic-bezier(.65, 0, .35, 1)", fill: "forwards" });
+    anim.onfinish = finish;
+  }
+
   /* ---------- arranque ---------- */
   function watchScroll() {
     const sentinel = $("#menu-sentinel"); let tick = false;
@@ -280,7 +302,7 @@
   }
 
   async function init() {
-    setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
+    setupSplash(); setCursors(); buildMenu(); sparkles(); decorations(); footer(); watchScroll();
     await loadProducts();
     window.addEventListener("hashchange", render);
     render();

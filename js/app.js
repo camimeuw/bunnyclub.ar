@@ -68,7 +68,7 @@
   /* ---------- catálogo ---------- */
   const catalog = $("#catalog"), empty = $("#empty");
 
-  const SIZES = [250, 180, 215, 170, 235, 195, 260, 175, 220, 190];
+  const SIZES = [310, 205, 262, 195, 300, 218, 322, 200, 272, 210];
   function renderCatalog() {
     const items = PRODUCTS;
     empty.hidden = items.length > 0;

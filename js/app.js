@@ -261,8 +261,33 @@
     saveCart(); renderCart();
     cartBtn.classList.remove("bump"); void cartBtn.offsetWidth; cartBtn.classList.add("bump");
   }
+  /* --- códigos de descuento --- */
+  let PROMO = "";
+  try { PROMO = localStorage.getItem("bunnyclub-promo") || ""; } catch (e) {}
+  const savePromo = () => { try { localStorage.setItem("bunnyclub-promo", PROMO); } catch (e) {} };
+  const norm = t => (t || "").toString().trim().toUpperCase().replace(/\s+/g, "");
+  const hoy = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+  function findPromo(code) {
+    const c = (CFG.codigos || []).find(x => norm(x.codigo) === norm(code));
+    if (!c) return { error: "Ese código no existe." };
+    if (c.activo === false) return { error: "Ese código ya no está activo." };
+    if (c.vence && hoy() > c.vence) return { error: "Ese código venció." };
+    return { promo: { codigo: norm(c.codigo), pct: Number(c.porcentaje) || 0 } };
+  }
+  function applyPromo(code, silent) {
+    const r = findPromo(code);
+    if (r.error) { if (!silent) { setPromoMsg(r.error, false); } else { PROMO = ""; savePromo(); } renderCart(); return false; }
+    PROMO = r.promo.codigo; savePromo(); renderCart(); return true;
+  }
+  function setPromoMsg(t, ok) { const m = $("#promo-msg"); m.textContent = t; m.classList.toggle("ok", !!ok); }
   function renderCart() {
-    const count = CART.reduce((n, i) => n + i.qty, 0), total = CART.reduce((n, i) => n + i.qty * i.precio, 0);
+    const count = CART.reduce((n, i) => n + i.qty, 0), subtotal = CART.reduce((n, i) => n + i.qty * i.precio, 0);
+    const pr = PROMO ? findPromo(PROMO) : null;
+    if (PROMO && pr.error) { PROMO = ""; savePromo(); }
+    const pct = PROMO && pr.promo ? pr.promo.pct : 0, descuento = Math.round(subtotal * pct / 100), total = subtotal - descuento;
+    const pf = $("#promo"); if (pf) { pf.classList.toggle("applied", !!PROMO); if (PROMO) setPromoMsg(`Código ${PROMO} aplicado: ${pct}% de descuento ♡`, true); else if ($("#promo-msg").classList.contains("ok")) setPromoMsg("", false); }
+    const lines2 = $("#cart-lines");
+    if (lines2) lines2.innerHTML = PROMO ? `<div><span>Subtotal</span><span>${money(subtotal)}</span></div><div class="desc"><span>${PROMO} (−${pct}%)<button type="button" data-promo-off>Quitar</button></span><span>−${money(descuento)}</span></div>` : "";
     const badge = $("#cart-count"); badge.textContent = count; badge.hidden = !count;
     cartEl.classList.toggle("has-items", count > 0);
     cartList.innerHTML = CART.map((i, k) => `
@@ -274,13 +299,14 @@
       </li>`).join("");
     $("#cart-total").textContent = money(total);
     const lines = CART.map(i => `• ${i.qty} x ${i.nombre}${i.talle || i.color ? " (" + [i.talle && "Talle " + i.talle, i.color].filter(Boolean).join(", ") + ")" : ""} - ${money(i.precio * i.qty)}`);
-    $("#cart-buy").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola Bunny Club! 🐰 Quiero hacer este pedido:\n\n${lines.join("\n")}\n\nTotal: ${money(total)}`)}`;
+    $("#cart-buy").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola Bunny Club! 🐰 Quiero hacer este pedido:\n\n${lines.join("\n")}${PROMO ? `\n\nSubtotal: ${money(subtotal)}\nCódigo ${PROMO} (−${pct}%): −${money(descuento)}` : ""}\n\nTotal: ${money(total)}`)}`;
   }
   const openCart = () => { cartEl.classList.add("open"); cartEl.setAttribute("aria-hidden", "false"); };
   const closeCart = () => { cartEl.classList.remove("open"); cartEl.setAttribute("aria-hidden", "true"); };
   cartBtn.addEventListener("click", openCart);
   cartEl.addEventListener("click", e => {
     if (e.target.closest("[data-cart-close]")) return closeCart();
+    if (e.target.closest("[data-promo-off]")) { PROMO = ""; savePromo(); setPromoMsg("", false); return renderCart(); }
     if (e.target.closest("#cart-clear")) { CART = []; saveCart(); return renderCart(); }
     const b = e.target.closest("[data-act]"); if (!b) return;
     const k = Number(b.dataset.k), it = CART[k]; if (!it) return;
@@ -290,6 +316,12 @@
     saveCart(); renderCart();
   });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && cartEl.classList.contains("open")) closeCart(); });
+  $("#promo").addEventListener("submit", e => {
+    e.preventDefault(); const v = $("#promo-input").value; if (!norm(v)) return setPromoMsg("Escribí tu código.", false);
+    if (applyPromo(v, false)) $("#promo-input").value = "";
+  });
+  // link con código: ?codigo=HOLA10
+  try { const q = new URLSearchParams(location.search).get("codigo"); if (q && applyPromo(q, true)) renderCart(); } catch (e) {}
 
   /* ---------- cursor de conejito ---------- */
   function setCursors() {

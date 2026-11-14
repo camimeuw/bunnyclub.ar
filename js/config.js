@@ -22,6 +22,11 @@ window.BUNNY = {
       "Te pasamos el costo y el tiempo de entrega según tu zona."
     ]
   },
+  // Códigos de descuento (porcentaje). Para sumar uno, copiá una línea. "activo: false" lo apaga; "vence" es opcional (AAAA-MM-DD).
+  // Además, un link como https://TUSITIO/?codigo=HOLA10 aplica el código solo.
+  codigos: [
+    { codigo: "HOLA10", porcentaje: 10, activo: true, vence: "" }
+  ],
   carpetaImagenes: "img/",              // donde están las fotos de los productos
   // Decoraciones en los costados (PNG transparentes). Ejemplo:
   // { src: "assets/img/decor/estrella.png", lado: "izquierda", top: "25%", ancho: 120, rotacion: -8 }

@@ -77,6 +77,12 @@
       <ul id="cart-list"></ul>
       <div id="cart-empty"><img src="assets/img/conejito-puntos.png" alt=""><p>El carrito está vacío</p></div>
       <div id="cart-foot">
+        <form id="promo" class="promo" autocomplete="off">
+          <label for="promo-input">¿Tenés un código de descuento?</label>
+          <div class="promo-row"><input id="promo-input" type="text" placeholder="Tu código" maxlength="24" autocapitalize="characters" spellcheck="false"><button type="submit">Aplicar</button></div>
+          <p id="promo-msg" role="status"></p>
+        </form>
+        <div class="cart-lines" id="cart-lines"></div>
         <p class="cart-total"><span>Total</span><strong id="cart-total">$0</strong></p>
         <div class="m-wrap-buy"><a id="cart-buy" class="m-buy" target="_blank" rel="noopener"><span>Pedir por WhatsApp</span></a></div>
         <button id="cart-clear" type="button">Vaciar carrito</button>

@@ -50,6 +50,11 @@ El carrito está en la esquina de arriba a la derecha. Al abrir un producto se e
 El carrito suma el total y arma el pedido por WhatsApp (botón *Pedir por WhatsApp*). Se guarda en el navegador de cada clienta.
 Los productos marcados como agotados no se agregan: ofrecen *Consultar reposición* por WhatsApp.
 
+## Códigos de descuento
+En `js/config.js`, en `codigos`. Cada código es una línea: `{ codigo: "HOLA10", porcentaje: 10, activo: true, vence: "" }`.
+Para sumar uno, copiá la línea y cambiá el código y el porcentaje. `activo: false` lo apaga y `vence: "2026-12-31"` le pone fecha límite.
+La clienta lo escribe en el carrito, o entra por un link como `https://TUSITIO/?codigo=HOLA10` y se aplica solo. El pedido de WhatsApp incluye el subtotal, el código y el total.
+
 ## Menú
 El botón de arriba a la derecha, debajo del carrito, abre el menú: categorías con subcategorías (filtran los productos), Talles, Envíos y Contacto.
 Las categorías se leen de las columnas `categoria` y `subcategoria` del Excel (Indumentaria: Partes de arriba, Partes de abajo, Vestidos · Accesorios).

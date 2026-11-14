@@ -29,7 +29,7 @@ window.BUNNY = {
   ],
   // Conexión con el panel de administración (Firebase). Dejá projectId y apiKey vacíos para usar solo el Excel (data/productos.csv).
   // Los datos se copian de la consola de Firebase: ver ADMIN.md.
-  firebase: { projectId: "", apiKey: "" },
+  firebase: { projectId: "bunnyclub-ebb49", apiKey: "AIzaSyCRVqWRbhCESwkiZwsZrzP9Gxm10AtS4II" },
   carpetaImagenes: "img/",              // donde están las fotos de los productos
   // Decoraciones en los costados (PNG transparentes). Ejemplo:
   // { src: "assets/img/decor/estrella.png", lado: "izquierda", top: "25%", ancho: 120, rotacion: -8 }

@@ -1,7 +1,9 @@
 // ===== CONFIGURACIÓN DE BUNNY CLUB =====
 window.BUNNY = {
   // Tu número de WhatsApp con código de país, SIN + ni espacios. Argentina: 549 + código de área + número
-  whatsapp: "5491100000000",
+  whatsapp: "5491140226515",
+  email: "bunnyclubshowroom@gmail.com",   // se muestra en Contacto (dejalo vacío "" para ocultarlo)
+  telefonoVisible: "+54 9 11 4022-6515",   // cómo se escribe el número en Contacto
   instagram: "bunnyclub.ar",            // usuario sin @ (dejalo vacío "" para ocultarlo)
   // De dónde se leen los productos:
   //  - archivo local exportado desde Excel como CSV:

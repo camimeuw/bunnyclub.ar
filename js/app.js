@@ -142,8 +142,10 @@
     $("#mp-talles").innerHTML = lines(info.talles);
     $("#mp-envios").innerHTML = lines(info.envios);
     const wa = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent("Hola Bunny Club! 🐰")}`;
-    $("#mp-contacto").innerHTML = `<ul><li><a href="${wa}" target="_blank" rel="noopener">WhatsApp</a></li>` +
-      (CFG.instagram ? `<li><a href="https://instagram.com/${CFG.instagram.replace(/^@/, "")}" target="_blank" rel="noopener">Instagram @${CFG.instagram.replace(/^@/, "")}</a></li>` : "") + `</ul>`;
+    const ig = (CFG.instagram || "").replace(/^@/, "");
+    $("#mp-contacto").innerHTML = `<ul><li><a href="${wa}" target="_blank" rel="noopener">WhatsApp ${CFG.telefonoVisible || ""}</a></li>` +
+      (ig ? `<li><a href="https://instagram.com/${ig}" target="_blank" rel="noopener">Instagram @${ig}</a></li>` : "") +
+      (CFG.email ? `<li><a href="mailto:${CFG.email}">${CFG.email}</a></li>` : "") + `</ul>`;
     markMenu();
   }
   function markMenu() {

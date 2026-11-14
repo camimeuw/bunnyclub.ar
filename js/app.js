@@ -33,7 +33,31 @@
   const isTrue = s => /^(si|sí|s|x|1|true|agotado|yes)$/i.test((s || "").trim());
 
   let PRODUCTS = [];
+  async function loadFromFirebase() {
+    if (!window.BunnyDB || !BunnyDB.enabled()) return false;
+    try {
+      const docs = await BunnyDB.list("productos");
+      if (!docs.length) return false;
+      docs.sort((a, b) => (a.orden || 0) - (b.orden || 0));
+      PRODUCTS = docs.map((d, i) => ({
+        id: i, fid: d.id, nombre: d.nombre, precio: Number(d.precio) || 0,
+        cat: slugify(d.categoria), catLabel: d.categoria, sub: slugify(d.subcategoria), subLabel: d.subcategoria,
+        imgs: (d.thumbs || []).slice(), thumb: (d.thumbs || [])[0] || "", fotoIds: d.imagenes || [],
+        desc: d.descripcion || "", talles: list(d.talles), colores: list(d.colores), agotado: !!d.agotado,
+      })).filter(p => p.nombre);
+      return PRODUCTS.length > 0;
+    } catch (e) { console.warn("Firebase no respondió, uso el catálogo local:", e); return false; }
+  }
+  // fotos grandes: la ficha abre con las miniaturas y las reemplaza por las de alta calidad al llegar
+  function hydrateFull(p) {
+    if (!p.fotoIds || p.full) return; p.full = true;
+    p.fotoIds.forEach((fid, k) => BunnyDB.get("fotos", fid).then(d => {
+      if (!d || !d.data) return; p.imgs[k] = d.data;
+      if (cur === p && k === curImg) { const im = $("#m-img"); if (im) im.src = d.data; }
+    }).catch(() => {}));
+  }
   async function loadProducts() {
+    if (await loadFromFirebase()) return;
     try {
       let text = null;
       try {                                                    // online: se lee la planilla actual
@@ -184,7 +208,7 @@
   }
   function openModal(id) {
     cur = PRODUCTS.find(p => p.id === id); if (!cur) return;
-    selTalle = selColor = null; lastFocus = document.activeElement;
+    selTalle = selColor = null; lastFocus = document.activeElement; hydrateFull(cur);
     $("#m-cat").textContent = "";
     $("#m-name").textContent = cur.nombre; $("#m-price").textContent = money(cur.precio);
     $("#m-desc").textContent = cur.desc || ""; $("#m-hint").textContent = "";
@@ -257,7 +281,7 @@
   const sameItem = (i, p, t, c) => i.nombre === p.nombre && (i.talle || "") === (t || "") && (i.color || "") === (c || "");
   function addToCart(p, talle, color) {
     const it = CART.find(i => sameItem(i, p, talle, color));
-    if (it) it.qty++; else CART.push({ nombre: p.nombre, precio: p.precio, img: p.imgs[0] || "", talle: talle || "", color: color || "", qty: 1 });
+    if (it) it.qty++; else CART.push({ nombre: p.nombre, precio: p.precio, img: p.thumb || p.imgs[0] || "", talle: talle || "", color: color || "", qty: 1 });
     saveCart(); renderCart();
     cartBtn.classList.remove("bump"); void cartBtn.offsetWidth; cartBtn.classList.add("bump");
   }
@@ -267,8 +291,17 @@
   const savePromo = () => { try { localStorage.setItem("bunnyclub-promo", PROMO); } catch (e) {} };
   const norm = t => (t || "").toString().trim().toUpperCase().replace(/\s+/g, "");
   const hoy = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; };
+  let CODES = CFG.codigos || [], CODES_READY = !(window.BunnyDB && BunnyDB.enabled());
+  async function loadCodes() {
+    if (window.BunnyDB && BunnyDB.enabled()) {
+      try { CODES = (await BunnyDB.list("codigos")).map(d => ({ codigo: d.id, porcentaje: d.porcentaje, activo: d.activo !== false, vence: d.vence || "" })); }
+      catch (e) { console.warn("No pude leer los códigos de Firebase, uso config.js:", e); }
+      CODES_READY = true; renderCart();
+    }
+    applyLinkPromo();
+  }
   function findPromo(code) {
-    const c = (CFG.codigos || []).find(x => norm(x.codigo) === norm(code));
+    const c = CODES.find(x => norm(x.codigo) === norm(code));
     if (!c) return { error: "Ese código no existe." };
     if (c.activo === false) return { error: "Ese código ya no está activo." };
     if (c.vence && hoy() > c.vence) return { error: "Ese código venció." };
@@ -282,12 +315,12 @@
   function setPromoMsg(t, ok) { const m = $("#promo-msg"); m.textContent = t; m.classList.toggle("ok", !!ok); }
   function renderCart() {
     const count = CART.reduce((n, i) => n + i.qty, 0), subtotal = CART.reduce((n, i) => n + i.qty * i.precio, 0);
-    const pr = PROMO ? findPromo(PROMO) : null;
-    if (PROMO && pr.error) { PROMO = ""; savePromo(); }
-    const pct = PROMO && pr.promo ? pr.promo.pct : 0, descuento = Math.round(subtotal * pct / 100), total = subtotal - descuento;
-    const pf = $("#promo"); if (pf) { pf.classList.toggle("applied", !!PROMO); if (PROMO) setPromoMsg(`Código ${PROMO} aplicado: ${pct}% de descuento ♡`, true); else if ($("#promo-msg").classList.contains("ok")) setPromoMsg("", false); }
+    const pr = PROMO && CODES_READY ? findPromo(PROMO) : null;
+    if (pr && pr.error) { PROMO = ""; savePromo(); }
+    const pct = PROMO && pr && pr.promo ? pr.promo.pct : 0, descuento = Math.round(subtotal * pct / 100), total = subtotal - descuento;
+    const pf = $("#promo"); if (pf) { pf.classList.toggle("applied", !!PROMO && pct > 0); if (PROMO && pct > 0) setPromoMsg(`Código ${PROMO} aplicado: ${pct}% de descuento ♡`, true); else if ($("#promo-msg").classList.contains("ok")) setPromoMsg("", false); }
     const lines2 = $("#cart-lines");
-    if (lines2) lines2.innerHTML = PROMO ? `<div><span>Subtotal</span><span>${money(subtotal)}</span></div><div class="desc"><span>${PROMO} (−${pct}%)<button type="button" data-promo-off>Quitar</button></span><span>−${money(descuento)}</span></div>` : "";
+    if (lines2) lines2.innerHTML = PROMO && pct > 0 ? `<div><span>Subtotal</span><span>${money(subtotal)}</span></div><div class="desc"><span>${PROMO} (−${pct}%)<button type="button" data-promo-off>Quitar</button></span><span>−${money(descuento)}</span></div>` : "";
     const badge = $("#cart-count"); badge.textContent = count; badge.hidden = !count;
     cartEl.classList.toggle("has-items", count > 0);
     cartList.innerHTML = CART.map((i, k) => `
@@ -299,7 +332,7 @@
       </li>`).join("");
     $("#cart-total").textContent = money(total);
     const lines = CART.map(i => `• ${i.qty} x ${i.nombre}${i.talle || i.color ? " (" + [i.talle && "Talle " + i.talle, i.color].filter(Boolean).join(", ") + ")" : ""} - ${money(i.precio * i.qty)}`);
-    $("#cart-buy").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola Bunny Club! 🐰 Quiero hacer este pedido:\n\n${lines.join("\n")}${PROMO ? `\n\nSubtotal: ${money(subtotal)}\nCódigo ${PROMO} (−${pct}%): −${money(descuento)}` : ""}\n\nTotal: ${money(total)}`)}`;
+    $("#cart-buy").href = `https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola Bunny Club! 🐰 Quiero hacer este pedido:\n\n${lines.join("\n")}${PROMO && pct > 0 ? `\n\nSubtotal: ${money(subtotal)}\nCódigo ${PROMO} (−${pct}%): −${money(descuento)}` : ""}\n\nTotal: ${money(total)}`)}`;
   }
   const openCart = () => { cartEl.classList.add("open"); cartEl.setAttribute("aria-hidden", "false"); };
   const closeCart = () => { cartEl.classList.remove("open"); cartEl.setAttribute("aria-hidden", "true"); };
@@ -321,7 +354,7 @@
     if (applyPromo(v, false)) $("#promo-input").value = "";
   });
   // link con código: ?codigo=HOLA10
-  try { const q = new URLSearchParams(location.search).get("codigo"); if (q && applyPromo(q, true)) renderCart(); } catch (e) {}
+  function applyLinkPromo() { try { const q = new URLSearchParams(location.search).get("codigo"); if (q) applyPromo(q, true); } catch (e) {} }
 
   /* ---------- cursor de conejito ---------- */
   function setCursors() {
@@ -374,6 +407,7 @@
   async function init() {
     revealOnView();
     document.body.dataset.btn = String(CFG.estiloBoton || 1); setCursors(); renderCart(); sparkles(); decorations(); footer(); watchScroll();
+    loadCodes();
     await loadProducts();
     buildMenuPanel();
     renderCatalog();

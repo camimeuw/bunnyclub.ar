@@ -1,0 +1,15 @@
+// Reglas de seguridad de Firebase (Firestore Database → Reglas).
+// 1) Cambiá el email por el de la dueña, EN MINÚSCULAS.
+// 2) Copiá todo este contenido en la pestaña "Reglas" de Firestore y tocá "Publicar".
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Todos pueden LEER (la tienda necesita mostrar los productos y validar los códigos).
+    // Solo la dueña, con su email, puede ESCRIBIR (crear, editar o borrar).
+    match /{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null
+                   && request.auth.token.email == "email-de-la-duena@gmail.com";
+    }
+  }
+}

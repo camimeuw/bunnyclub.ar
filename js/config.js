@@ -27,6 +27,9 @@ window.BUNNY = {
   codigos: [
     { codigo: "HOLA10", porcentaje: 10, activo: true, vence: "" }
   ],
+  // Conexión con el panel de administración (Firebase). Dejá projectId y apiKey vacíos para usar solo el Excel (data/productos.csv).
+  // Los datos se copian de la consola de Firebase: ver ADMIN.md.
+  firebase: { projectId: "", apiKey: "" },
   carpetaImagenes: "img/",              // donde están las fotos de los productos
   // Decoraciones en los costados (PNG transparentes). Ejemplo:
   // { src: "assets/img/decor/estrella.png", lado: "izquierda", top: "25%", ancho: 120, rotacion: -8 }

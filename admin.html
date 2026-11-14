@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#F6E2EE">
+  <title>Panel — Bunny Club</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin">
+
+  <!-- falta conectar Firebase -->
+  <section id="ad-setup" class="ad-center" hidden>
+    <img class="ad-logo" src="assets/img/logo-horizontal.png" alt="Bunny Club">
+    <div class="ad-card">
+      <h1>Falta un paso</h1>
+      <p>El panel todavía no está conectado a Firebase. Completá <b>projectId</b> y <b>apiKey</b> en <code>js/config.js</code> siguiendo la guía <code>ADMIN.md</code>.</p>
+    </div>
+  </section>
+
+  <!-- entrar -->
+  <section id="ad-login" class="ad-center" hidden>
+    <img class="ad-logo" src="assets/img/logo-horizontal.png" alt="Bunny Club">
+    <form id="ad-login-form" class="ad-card" autocomplete="on">
+      <h1>Panel de la tienda</h1>
+      <label>Email<input id="ad-email" type="email" autocomplete="username" required></label>
+      <label>Contraseña<input id="ad-pass" type="password" autocomplete="current-password" required></label>
+      <button class="ad-btn" type="submit">Entrar</button>
+      <p id="ad-login-msg" class="ad-msg" role="status"></p>
+      <button class="ad-link" id="ad-forgot" type="button">Olvidé mi contraseña</button>
+    </form>
+  </section>
+
+  <!-- panel -->
+  <main id="ad-app" hidden>
+    <header class="ad-top">
+      <img src="assets/img/logo-vertical.png" alt="Bunny Club">
+      <div class="ad-who"><span>Panel de la tienda</span><small id="ad-user"></small></div>
+      <a class="ad-link" href="index.html" target="_blank" rel="noopener">Ver la tienda</a>
+      <button class="ad-link" id="ad-out" type="button">Salir</button>
+    </header>
+
+    <nav class="ad-tabs" role="tablist">
+      <button type="button" role="tab" data-tab="productos" aria-selected="true">Productos</button>
+      <button type="button" role="tab" data-tab="codigos" aria-selected="false">Códigos de descuento</button>
+    </nav>
+
+    <section id="tab-productos" class="ad-pane">
+      <div class="ad-bar">
+        <button class="ad-btn" id="ad-new" type="button">+ Agregar producto</button>
+        <span id="ad-count" class="ad-note"></span>
+      </div>
+      <div id="ad-empty" class="ad-card" hidden>
+        <h2>Todavía no hay productos cargados acá</h2>
+        <p>Podés agregar los productos de a uno, o traer de una vez los que ya están en la tienda.</p>
+        <button class="ad-btn ghost" id="ad-import" type="button">Traer los productos actuales de la tienda</button>
+        <p id="ad-import-msg" class="ad-msg" role="status"></p>
+      </div>
+      <ul id="ad-list" class="ad-list"></ul>
+    </section>
+
+    <section id="tab-codigos" class="ad-pane" hidden>
+      <form id="ad-code-form" class="ad-card ad-row">
+        <h2>Crear un código</h2>
+        <label>Nombre del código<input id="cd-name" type="text" maxlength="24" placeholder="Ej: HOLA10" autocapitalize="characters" spellcheck="false" required></label>
+        <label>Descuento (%)<input id="cd-pct" type="number" min="1" max="99" step="1" placeholder="10" required></label>
+        <label>Vence (opcional)<input id="cd-date" type="date"></label>
+        <button class="ad-btn" type="submit">Crear código</button>
+        <p id="cd-msg" class="ad-msg" role="status"></p>
+      </form>
+      <ul id="cd-list" class="ad-list"></ul>
+      <div id="cd-import" class="ad-card" hidden>
+        <p>En <code>js/config.js</code> hay códigos escritos a mano. Podés traerlos acá para manejarlos desde el panel.</p>
+        <button class="ad-btn ghost" id="cd-import-btn" type="button">Traer códigos de la configuración</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- editor de producto -->
+  <div id="ad-editor" class="ad-sheet" hidden>
+    <form id="ad-form" class="ad-sheet-card">
+      <header><h2 id="ed-title">Producto</h2><button type="button" class="ad-x" id="ed-close" aria-label="Cerrar">×</button></header>
+
+      <label>Nombre<input id="ed-nombre" type="text" maxlength="60" required></label>
+      <div class="ad-two">
+        <label>Precio ($)<input id="ed-precio" type="number" min="0" step="1" inputmode="numeric" required></label>
+        <label>Categoría<select id="ed-cat"><option>Indumentaria</option><option>Accesorios</option></select></label>
+      </div>
+      <label id="ed-sub-wrap">Tipo de prenda<select id="ed-sub"><option>Partes de arriba</option><option>Partes de abajo</option><option>Vestidos</option></select></label>
+      <label>Descripción<textarea id="ed-desc" rows="4" maxlength="600" placeholder="Material, cuidados, detalles…"></textarea></label>
+      <div class="ad-two">
+        <label>Talles<input id="ed-talles" type="text" placeholder="S, M, L"><small>Separalos con coma. Dejalo vacío si no tiene talles.</small></label>
+        <label>Colores<input id="ed-colores" type="text" placeholder="Rosa, Negro"><small>Separalos con coma. Dejalo vacío si es uno solo.</small></label>
+      </div>
+      <label class="ad-check"><input id="ed-agotado" type="checkbox"> Marcar como agotado</label>
+
+      <div class="ad-photos">
+        <h3>Fotos</h3>
+        <p class="ad-note">La primera es la principal. Si la foto tiene fondo blanco, el panel puede quitarlo solo.</p>
+        <ul id="ed-fotos" class="ad-fotos"></ul>
+        <label class="ad-btn ghost ad-file">+ Agregar fotos<input id="ed-file" type="file" accept="image/*" multiple hidden></label>
+        <label class="ad-check"><input id="ed-cut" type="checkbox" checked> Quitar el fondo blanco automáticamente (solo si la foto no es PNG transparente)</label>
+        <p id="ed-photo-msg" class="ad-msg" role="status"></p>
+      </div>
+
+      <p id="ed-msg" class="ad-msg" role="status"></p>
+      <footer>
+        <button type="submit" class="ad-btn" id="ed-save">Guardar producto</button>
+        <button type="button" class="ad-btn ghost" id="ed-cancel">Cancelar</button>
+        <button type="button" class="ad-link danger" id="ed-delete" hidden>Eliminar producto</button>
+      </footer>
+    </form>
+  </div>
+
+  <div id="ad-toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="data/productos.js"></script>
+  <script src="js/firebase-rest.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

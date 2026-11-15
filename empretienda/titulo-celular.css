@@ -1,0 +1,9 @@
+/* Título "Harakiri Store": más chico solo en celular (computadora no cambia) */
+@media (max-width: 640px) {
+  .block-text__title,
+  .block-text__title span {
+    font-size: clamp(22px, 7.8vw, 34px);
+    letter-spacing: .01em;
+    line-height: 1.15;
+  }
+}

@@ -1,0 +1,15 @@
+/* Logo del header flotando suavemente */
+.header-menu .header-logo__image {
+  animation: hk-flota 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes hk-flota {
+  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+  50%      { transform: translateY(-10px) rotate(1.2deg); }
+}
+@media (max-width: 959px) {
+  @keyframes hk-flota {
+    0%, 100% { transform: translateY(0) rotate(-1deg); }
+    50%      { transform: translateY(-6px) rotate(1deg); }
+  }
+}

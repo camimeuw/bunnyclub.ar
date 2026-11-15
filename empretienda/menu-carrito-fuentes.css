@@ -98,6 +98,11 @@
   color: #231a2b !important;
 }
 
+/* Imagen del murcielago (se define una sola vez y se reutiliza) */
+:root {
+  --hk-bicho: url("CARRITO_PNG");
+}
+
 /* ---------- Carrito vacio: murcielago arriba del mensaje ---------- */
 .cart-sidenav__item--centered::before {
   content: "";
@@ -105,7 +110,7 @@
   width: 110px;
   aspect-ratio: 150 / 188;
   margin: 0 auto 14px;
-  background: url("CARRITO_PNG") no-repeat center / contain;
+  background: var(--hk-bicho) no-repeat center / contain;
 }
 .cart-sidenav__info-text {
   color: #231a2b !important;

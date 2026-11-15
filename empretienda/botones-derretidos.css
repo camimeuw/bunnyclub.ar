@@ -43,6 +43,3 @@
   .block-categories-carrousel__link { padding: 15px 26px !important; font-size: 12px; }
   .block-categories-carrousel__link::after { height: 32px; }
 }
-@media (hover: none) {
-  .block-categories-carrousel__link:hover::after { transform: none; }
-}

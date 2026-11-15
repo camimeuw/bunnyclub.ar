@@ -86,15 +86,3 @@
   .block-products-feed__product-buttons-buy.btn-buy { padding: 8px 20px; font-size: 10.5px; }
 }
 
-/* Sin hover en pantallas táctiles */
-@media (hover: none) {
-  .block-products-feed__product-link:hover { transform: none; box-shadow: 4px 4px 0 rgba(215, 166, 248, .85); }
-  .block-products-feed__product-link:hover .block-products-feed__product-image { transform: none; }
-}
-
-/* Animaciones reducidas */
-@media (prefers-reduced-motion: reduce) {
-  .block-products-feed__product-link,
-  .block-products-feed__product-image,
-  .block-products-feed__product-buttons-buy { transition: none; }
-}

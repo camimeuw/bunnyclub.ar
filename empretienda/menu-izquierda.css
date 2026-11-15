@@ -1,0 +1,11 @@
+/* Menú del celular: se abre desde la izquierda (donde está el botón) */
+#mobile-menu-sidenav .uk-offcanvas-bar,
+#mobile-menu-sidenav.uk-offcanvas-flip .uk-offcanvas-bar {
+  left: 0 !important;
+  right: auto !important;
+  transform: translateX(-100%);
+  transition: transform .3s ease-out !important;
+}
+#mobile-menu-sidenav.uk-open > .uk-offcanvas-bar {
+  transform: translateX(0);
+}

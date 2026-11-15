@@ -1,5 +1,5 @@
 /* Murciélagos a los costados del título "Harakiri Store".
-   Izquierda: imagen 1 / Derecha: imagen 2. Tienen el color del derretido (#d7a6f8).
+   Izquierda: imagen 1 / Derecha: imagen 2. Son negros con fondo transparente.
    Se miden en "em" para seguir el tamaño del título; pueden tocar el header. */
 .block-text__title {
   position: relative;

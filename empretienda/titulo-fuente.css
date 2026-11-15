@@ -14,7 +14,7 @@
 
 .block-text__title,
 .block-text__title span {
-  font-family: "HK Titulo", cursive !important;
+  font-family: "HK Titulo", Impact, "Arial Black", sans-serif !important;
   font-weight: 400 !important;
   font-synthesis: none;                 /* evita negrita falsa */
   font-size: clamp(38px, 6vw, 68px);

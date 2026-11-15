@@ -30,6 +30,3 @@
   .hk-marquesina__pista { animation-duration: 30s; }
   .hk-marquesina__grupo { font-size: 10.5px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .hk-marquesina__pista { animation: none; }
-}

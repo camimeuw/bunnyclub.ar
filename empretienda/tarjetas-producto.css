@@ -1,96 +1,98 @@
 /* ==========================================================================
-   Harakiri Store - estilo de tarjetas de producto (Empretienda)
-   Pegar en: Panel > Diseño > Edición CSS (avanzado)
-   - Solo toca .block-products-feed__* (no layout/grilla, no header/footer).
-   - No oculta ni modifica la leyenda "Tienda creada con Empretienda".
-   - Los colores salen de la plantilla (currentColor / clases primary),
-     así que respetan el color elegido en el panel.
+   Harakiri Store - tarjetas de producto (versión delicada)
+   Solo toca .block-products-feed__* (no grilla, header ni footer).
    ========================================================================== */
 
-/* ---------- Imagen: marco suave, recorte parejo y zoom al pasar ---------- */
+/* ---------- Foto: marco fino negro + sombra lila corrida (estilo sticker) ---------- */
 .block-products-feed__product-link {
   display: block;
   overflow: hidden;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, .04);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
-  transition: box-shadow .3s ease, transform .3s ease;
+  border: 1px solid #231a2b;
+  border-radius: 14px;
+  background: #fffafd;
+  box-shadow: 4px 4px 0 rgba(215, 166, 248, .85);
+  transition: box-shadow .35s ease, transform .35s ease;
 }
 .block-products-feed__product-link:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, .16);
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 rgba(215, 166, 248, .95);
 }
 .block-products-feed__product-image {
   display: block;
   width: 100%;
-  transition: transform .5s ease;
+  transition: transform .8s ease;
 }
 .block-products-feed__product-link:hover .block-products-feed__product-image {
-  transform: scale(1.06);
+  transform: scale(1.025);
 }
 
-/* ---------- Nombre ---------- */
+/* ---------- Nombre y precio ---------- */
 .block-products-feed__product-name {
-  margin: 12px 0 4px;
-  line-height: 1.3;
+  margin: 14px 0 3px;
+  line-height: 1.35;
 }
 .block-products-feed__product-name,
 .block-products-feed__product-name a {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: .02em;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .04em;
   text-decoration: none;
 }
 .block-products-feed__product-name a:hover {
   text-decoration: none;
-  opacity: .75;
+  opacity: .7;
 }
-
-/* ---------- Precio ---------- */
 .block-products-feed__product-price {
-  margin: 0 0 10px;
-  font-size: 17px;
-  font-weight: 700;
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: .03em;
 }
 
-/* ---------- Botón Comprar (píldora) ---------- */
-.block-products-feed__product-buttons-buy {
+/* ---------- Botón Comprar: negro, letras rosa pastel, fino ---------- */
+.block-products-feed__product-buttons-buy,
+.block-products-feed__product-buttons-buy.btn-buy {
   display: inline-block;
+  padding: 9px 26px;
+  border: 1px solid #231a2b !important;
   border-radius: 999px !important;
-  padding: 10px 28px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .08em;
+  background: #231a2b !important;
+  color: #ffc9e8 !important;
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: .16em;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, .15);
-  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+  box-shadow: none;
+  transition: background-color .3s ease, color .3s ease;
 }
-.block-products-feed__product-buttons-buy:hover {
-  transform: scale(1.05);
-  opacity: .92;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, .2);
-}
-.block-products-feed__product-buttons-buy:active {
-  transform: scale(.98);
+.block-products-feed__product-buttons-buy:hover,
+.block-products-feed__product-buttons-buy.btn-buy:hover {
+  background: #d7a6f8 !important;
+  color: #231a2b !important;
+  opacity: 1;
 }
 
-/* ---------- Celular: efectos más sutiles, botón más compacto ---------- */
+/* ---------- Celular ---------- */
 @media (max-width: 640px) {
-  .block-products-feed__product-link { border-radius: 14px; }
+  .block-products-feed__product-link {
+    border-radius: 11px;
+    box-shadow: 3px 3px 0 rgba(215, 166, 248, .85);
+  }
   .block-products-feed__product-name,
-  .block-products-feed__product-name a { font-size: 13px; }
-  .block-products-feed__product-price { font-size: 15px; }
-  .block-products-feed__product-buttons-buy { padding: 9px 20px; font-size: 12px; }
+  .block-products-feed__product-name a { font-size: 12.5px; }
+  .block-products-feed__product-price { font-size: 14px; }
+  .block-products-feed__product-buttons-buy,
+  .block-products-feed__product-buttons-buy.btn-buy { padding: 8px 20px; font-size: 10.5px; }
 }
 
-/* Sin hover en pantallas táctiles: evita que quede "pegado" el efecto */
+/* Sin hover en pantallas táctiles */
 @media (hover: none) {
-  .block-products-feed__product-link:hover { transform: none; }
+  .block-products-feed__product-link:hover { transform: none; box-shadow: 4px 4px 0 rgba(215, 166, 248, .85); }
   .block-products-feed__product-link:hover .block-products-feed__product-image { transform: none; }
 }
 
-/* Respeta usuarios con animaciones reducidas */
+/* Animaciones reducidas */
 @media (prefers-reduced-motion: reduce) {
   .block-products-feed__product-link,
   .block-products-feed__product-image,

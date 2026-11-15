@@ -23,7 +23,8 @@
 }
 .block-text__title::after {
   left: calc(50% + 4.35em);
-  background-image: url("MURCI_DER");
+  background-image: url("MURCI_IZQ");
+  transform: translateY(-62%) scaleX(-1);   /* espejo del de la izquierda */
 }
 .block-text__title span {
   position: relative;

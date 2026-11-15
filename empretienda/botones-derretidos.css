@@ -1,0 +1,42 @@
+/* Botones de categorías (Lentes de contacto / Maquillaje / Pelucas): efecto derretido.
+   Mismo violeta del derretido del header (#d7a6f8). Las gotas cuelgan debajo de cada botón. */
+.block-categories-carrousel__list-item {
+  margin-bottom: 50px !important;
+}
+.block-categories-carrousel__link {
+  position: relative;
+  display: block;
+  padding: 18px 34px !important;
+  border-radius: 14px 14px 0 0 !important;
+  background: #d7a6f8 !important;
+  color: #231a2b !important;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35);
+}
+.block-categories-carrousel__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% - 2px);
+  height: 44px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 44' preserveAspectRatio='none'%3E%3Cg fill='%23d7a6f8'%3E%3Crect x='0' y='-4' width='300' height='13'/%3E%3Cpath d='M8.0 9Q15.0 9 15.0 17L15.0 17.0A11.0 11.0 0 0 0 37.0 17.0L37.0 17Q37.0 9 44.0 9ZM71.0 9Q78.0 9 78.0 17L78.0 32.0A8.0 8.0 0 0 0 94.0 32.0L94.0 17Q94.0 9 101.0 9ZM122.0 9Q129.0 9 129.0 17L129.0 8.0A13.0 13.0 0 0 0 155.0 8.0L155.0 17Q155.0 9 162.0 9ZM184.0 9Q191.0 9 191.0 17L191.0 27.0A9.0 9.0 0 0 0 209.0 27.0L209.0 17Q209.0 9 216.0 9ZM238.0 9Q245.0 9 245.0 17L245.0 14.0A11.0 11.0 0 0 0 267.0 14.0L267.0 17Q267.0 9 274.0 9Z'/%3E%3C/g%3E%3Crect x='21.1' y='13' width='3.7' height='4.0' rx='1.3' fill='%23f6e9ff' fill-opacity='.9'/%3E%3Crect x='82.4' y='13' width='2.7' height='16.0' rx='1.3' fill='%23f6e9ff' fill-opacity='.9'/%3E%3Crect x='136.2' y='13' width='4.4' height='-3.2' rx='1.3' fill='%23f6e9ff' fill-opacity='.9'/%3E%3Crect x='195.9' y='13' width='3.1' height='12.0' rx='1.3' fill='%23f6e9ff' fill-opacity='.9'/%3E%3Crect x='251.1' y='13' width='3.7' height='1.6' rx='1.3' fill='%23f6e9ff' fill-opacity='.9'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+  transform-origin: top center;
+  transition: transform .5s ease;
+  pointer-events: none;
+}
+.block-categories-carrousel__link:hover::after {
+  transform: scaleY(1.25);
+}
+@media (max-width: 640px) {
+  .block-categories-carrousel__list-item { margin-bottom: 38px !important; }
+  .block-categories-carrousel__link { padding: 15px 26px !important; font-size: 12px; }
+  .block-categories-carrousel__link::after { height: 32px; }
+}
+@media (hover: none) {
+  .block-categories-carrousel__link:hover::after { transform: none; }
+}

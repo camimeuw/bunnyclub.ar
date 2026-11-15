@@ -133,25 +133,36 @@ body {
   background-size: 100% var(--hk-d);
 }
 
-/* ---------- 3. Logo grande, centrado, en el hueco del derretido ---------- */
+/* ---------- 3. Logo grande, centrado, sobre el derretido ---------- */
+/* Se define por ANCHO (--hk-logo) y con !important para pisar cualquier
+   max-height / height que traiga la plantilla. Para cambiar el tamaño,
+   tocar solo --hk-logo (arriba/abajo) y --hk-logo-top. */
+.header-menu {
+  --hk-logo: var(--hk-d);                /* ancho del logo (computadora) */
+  --hk-logo-top: calc(var(--hk-d) * .2);/* distancia desde arriba */
+}
 .header-menu .header-logo {
-  position: absolute;
-  top: calc(var(--hk-d) * .2);         /* ahora puede tapar un poco las gotas */
-  left: 50%;
-  transform: translateX(-50%);
-  height: calc(var(--hk-d) * .8);
-  margin: 0;
+  position: absolute !important;
+  top: var(--hk-logo-top) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: var(--hk-logo) !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
   z-index: 2;
 }
 .header-menu .header-logo__link {
-  display: block;
-  height: 100%;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
 }
 .header-menu .header-logo__image {
-  height: 100%;
-  width: auto;
-  max-width: 40vw;                     /* tope de ancho del logo */
-  object-fit: contain;
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
 }
 
 /* ---------- 4. Menú: queda debajo del derretido, centrado ---------- */
@@ -176,8 +187,7 @@ body {
 @media (max-width: 959px) {
   .header-menu {
     --hk-d: min(50vw, 300px);          /* la imagen mantiene su proporción 2:1 */
-  }
-  .header-menu .header-logo__image {
-    max-width: 48vw;
+    --hk-logo: min(48vw, 300px);       /* ancho del logo (celular) */
+    --hk-logo-top: calc(var(--hk-d) * .2);
   }
 }

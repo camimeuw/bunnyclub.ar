@@ -1,0 +1,61 @@
+/* Extras pastel goth: telaraña en las tarjetas, puntitos de fondo, cursor y barra de desplazamiento */
+
+/* Telaraña en la esquina de la foto de cada producto */
+.block-products-feed__product-link {
+  position: relative;
+}
+.block-products-feed__product-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44%;
+  aspect-ratio: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0L100.0 0.0M0 0L92.4 38.3M0 0L70.7 70.7M0 0L38.3 92.4M0 0L0.0 100.0M28.0 0.0Q23.6 4.7 25.9 10.7M25.9 10.7Q20.0 13.4 19.8 19.8M19.8 19.8Q13.4 20.0 10.7 25.9M10.7 25.9Q4.7 23.6 0.0 28.0M52.0 0.0Q43.9 8.7 48.0 19.9M48.0 19.9Q37.2 24.8 36.8 36.8M36.8 36.8Q24.8 37.2 19.9 48.0M19.9 48.0Q8.7 43.9 0.0 52.0M76.0 0.0Q64.1 12.8 70.2 29.1M70.2 29.1Q54.3 36.3 53.7 53.7M53.7 53.7Q36.3 54.3 29.1 70.2M29.1 70.2Q12.8 64.1 0.0 76.0M98.0 0.0Q82.7 16.4 90.5 37.5M90.5 37.5Q70.1 46.8 69.3 69.3M69.3 69.3Q46.8 70.1 37.5 90.5M37.5 90.5Q16.4 82.7 0.0 98.0' fill='none' stroke='%231a1a1a' stroke-opacity='.75' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Puntitos sobre el fondo rosa */
+html,
+body {
+  background-image: radial-gradient(circle, rgba(176, 120, 226, .38) 1.6px, transparent 2.2px) !important;
+  background-size: 24px 24px !important;
+}
+
+/* Cursor: estrella lila (normal) y corazón rosa (links y botones) */
+html,
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4.2 9.3 10.1 1.1-7.6 6.8 2.2 10-8.9-5.2-8.9 5.2 2.2-10L1.7 12.4l10.1-1.1z' fill='%23d7a6f8' stroke='%231a1a1a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, auto;
+}
+a,
+button,
+[role="button"],
+.btn-buy,
+.block-products-feed__product-buttons-buy,
+label,
+summary,
+select {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 28S3 20 3 11.5A6.5 6.5 0 0 1 16 9a6.5 6.5 0 0 1 13 2.5C29 20 16 28 16 28z' fill='%23ffa6dc' stroke='%231a1a1a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, pointer !important;
+}
+
+/* Barra de desplazamiento negra con detalle violeta pastel */
+html {
+  scrollbar-color: #d7a6f8 #1a1a1a;
+  scrollbar-width: auto;
+}
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #d7a6f8;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffa6dc;
+}

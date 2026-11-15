@@ -1,0 +1,24 @@
+
+/* ==========================================================================
+   Harakiri Store - fuente del título (Double Feature, licencia SIL OFL
+   © Coda Gardner, https://scripts.sil.org/OFL)
+   Solo cambia el título "Harakiri Store" (.block-text__title).
+   ========================================================================== */
+@font-face {
+  font-family: "HK Titulo";
+  src: url("FUENTE_INCRUSTADA") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.block-text__title,
+.block-text__title span {
+  font-family: "HK Titulo", cursive !important;
+  font-weight: 400 !important;
+  font-synthesis: none;                 /* evita negrita falsa */
+  font-size: clamp(38px, 6vw, 68px);
+  line-height: 1.1;
+  letter-spacing: .02em;
+  text-transform: none;
+}

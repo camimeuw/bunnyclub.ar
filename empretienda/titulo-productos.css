@@ -11,7 +11,7 @@
   font-family: "HK Productos", Impact, "Arial Black", sans-serif !important;
   font-weight: 400 !important;
   font-synthesis: none;
-  font-size: clamp(38px, 6vw, 62px);
+  font-size: clamp(40px, 11vw, 96px);
   line-height: 1.1;
   letter-spacing: .03em;
   text-transform: none;
@@ -25,4 +25,11 @@
   margin-left: .3em;
   vertical-align: -.35em;
   background: url("OJO_PNG") no-repeat center / contain;
+}
+
+/* Fondo de toda la sección de productos: mismo rosa de la página, liso */
+.block-products-feed,
+.uk-section-block:has(.block-products-feed__title) {
+  background-color: #fdd7fc !important;
+  background-image: none !important;
 }

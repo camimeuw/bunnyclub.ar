@@ -172,7 +172,7 @@ body {
   min-height: 0 !important;
 }
 
-/* Computadora */
+/* Computadora: menú a la izquierda, íconos a la derecha */
 .header-menu .header-menu__desktop-list {
   position: absolute !important;
   top: 0;
@@ -191,26 +191,23 @@ body {
   pointer-events: auto;
   order: 0;
 }
-/* "Inicio" es siempre el primero: empuja todo el menú a la derecha */
-.header-menu .header-menu__desktop-list > li:first-child {
-  margin-left: auto !important;
-}
-/* Íconos a la izquierda (los últimos 3 de la lista) */
+/* Íconos (los últimos 3 de la lista) van después, a la derecha */
 .header-menu .header-menu__desktop-list > li:nth-last-child(-n+3) {
-  order: -1;
+  order: 1;
 }
 /* Orden de los íconos: carrito, buscador, iniciar sesión */
 .header-menu .header-menu__desktop-list > li.desktop-list__item--cart {
-  order: -3;
+  order: 1;
+  margin-left: auto !important;         /* empuja los íconos a la derecha */
 }
 .header-menu .header-menu__desktop-list > li:has(> a.uk-navbar-toggle) {
-  order: -2;
+  order: 2;
 }
 .header-menu .header-menu__desktop-list > li:has(> a > svg circle[r="4.4"]) {
-  order: -1;
+  order: 3;
 }
 
-/* Celular */
+/* Celular: botón del menú a la izquierda, carrito y buscador a la derecha */
 .header-menu__mobile .mobile__actions {
   position: absolute !important;
   top: 0;
@@ -232,13 +229,15 @@ body {
 .header-menu__mobile .mobile__actions-list > li {
   pointer-events: auto;
 }
-/* carrito primero, después buscador */
-.header-menu__mobile .mobile__actions-list > li:nth-child(2) {
-  order: -1;
-}
-/* botón del menú (rayitas) a la derecha */
 .header-menu__mobile .mobile__actions-list > li:last-child {
-  margin-left: auto !important;
+  order: -1;                            /* botón del menú (rayitas) primero */
+}
+.header-menu__mobile .mobile__actions-list > li:nth-child(2) {
+  order: 1;                             /* carrito */
+  margin-left: auto !important;         /* empuja carrito y buscador a la derecha */
+}
+.header-menu__mobile .mobile__actions-list > li:nth-child(1) {
+  order: 2;                             /* buscador */
 }
 
 /* ---------- 5. Celular / tablet: derretido sin deformar ---------- */

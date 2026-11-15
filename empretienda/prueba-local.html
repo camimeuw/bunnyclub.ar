@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prueba local - tarjetas</title>
+<style>
+/* Simula la plantilla (reemplazar por el CSS real de la tienda si se quiere) */
+body{font-family:Arial,sans-serif;margin:0;padding:24px;background:#fff}
+.background--primary{background:#e91e8c}.contrast_text--primary{color:#fff}.text--primary{color:#333}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1100px;margin:auto}
+@media(max-width:640px){.grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+.uk-text-center{text-align:center}.uk-flex{display:flex}.uk-flex-center{justify-content:center}.uk-flex-column{flex-direction:column}
+.block-products-feed__product-link{display:inline}
+.block-products-feed__product-name{font-size:14px;margin:0}.block-products-feed__product-price{margin:0}
+.block-products-feed__product-buttons-buy{padding:8px 16px;border-radius:4px;display:inline-block}
+.block-products-feed__product-buttons{text-align:center}
+img{max-width:100%}
+</style>
+<link rel="stylesheet" href="tarjetas-producto.css"></head><body>
+<div class="grid" id="g"></div>
+<script>
+const n=["Peluca Rubia con Raiz","Peluca Blanca con Negro","Labial Rosa","Lentes Azules"],p=["$39.500,00","$39.500,00","$8.900,00","$12.000,00"];
+g.innerHTML=n.map((t,i)=>`<div class="item"><a href="#" class="block-products-feed__product-link"><img class="block-products-feed__product-image" alt="" src="data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><rect width='400' height='400' fill='hsl(${i*70+300},70%,85%)'/><circle cx='200' cy='200' r='90' fill='hsl(${i*70+300},60%,60%)'/></svg>`)}"></a>
+<div class="uk-flex uk-flex-center uk-flex-column uk-margin-small-top"><div class="block-products-feed__product-info uk-text-center"><h3 class="block-products-feed__product-name text--primary"><a href="#">${t}</a></h3><p class="block-products-feed__product-price text--primary uk-flex uk-flex-center">${p[i]}</p></div>
+<div class="block-products-feed__product-buttons contrast_text--primary"><a href="#" class="block-products-feed__product-buttons-buy btn-buy background--primary contrast_text--primary">Comprar</a></div></div></div>`).join("");
+</script></body></html>

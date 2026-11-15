@@ -67,22 +67,59 @@ body {
   max-height: none !important;
 }
 
-/* ---------- 4. Menú: queda debajo del derretido, centrado ---------- */
+/* ---------- 4. Barra de arriba: buscador/cuenta/carrito a la izquierda,
+                      menú a la derecha (todo arriba, sobre el derretido) ---------- */
 .header-menu__desktop,
-.header-menu__desktop-list {
-  min-height: 64px !important;
-}
-.header-menu__desktop {
-  justify-content: center !important;
+.header-menu__mobile {
+  min-height: 0 !important;
 }
 
-.header-menu__mobile,
-.header-menu__mobile .mobile__actions,
-.header-menu__mobile .mobile__actions-list {
-  min-height: 56px !important;
+/* Computadora */
+.header-menu .header-menu__desktop-list {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  padding: 0 28px;
+  min-height: 64px !important;
+  justify-content: flex-end !important;
+  pointer-events: none;                 /* no tapa el logo */
 }
-.header-menu__mobile {
-  justify-content: center !important;
+.header-menu .header-menu__desktop-list > li {
+  pointer-events: auto;
+}
+/* los últimos 3 (buscador, cuenta, carrito) pasan a la izquierda */
+.header-menu .header-menu__desktop-list > li:nth-last-child(-n+3) {
+  order: -1;
+}
+.header-menu .header-menu__desktop-list > li:last-child {
+  margin-right: auto !important;        /* empuja el menú a la derecha */
+}
+
+/* Celular */
+.header-menu__mobile .mobile__actions {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  min-height: 56px !important;
+  pointer-events: none;
+}
+.header-menu__mobile .mobile__actions-list {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 16px;
+  min-height: 56px !important;
+  justify-content: flex-start !important;
+}
+.header-menu__mobile .mobile__actions-list > li {
+  pointer-events: auto;
+}
+.header-menu__mobile .mobile__actions-list > li:last-child {
+  margin-left: auto !important;         /* botón del menú a la derecha */
 }
 
 /* ---------- 5. Celular / tablet: derretido sin deformar ---------- */

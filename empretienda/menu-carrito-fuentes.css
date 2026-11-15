@@ -57,12 +57,20 @@
   font-size: 19px;
 }
 
-/* ---------- Fuente Deathgrin: titulo del carrito ---------- */
+/* ---------- Carrito: nombre del producto con la misma fuente que en el inicio ---------- */
+.cart-sidenav__product-title {
+  font-family: "HK Nombres", Georgia, "Times New Roman", serif !important;
+  font-weight: 400 !important;
+  font-size: 18px;
+  letter-spacing: .02em;
+}
+/* "Subtotal", "Calcula el costo de envio", "Total", etc. (.cart-sidenav__detail-title) NO se tocan. */
+
+/* ---------- Fuente Deathgrin: titulo del carrito (solo encabezados h1-h4) ---------- */
 #cart-sidenav h1,
 #cart-sidenav h2,
 #cart-sidenav h3,
-#cart-sidenav h4,
-#cart-sidenav [class*="cart"][class*="title"] {
+#cart-sidenav h4 {
   font-family: "HK Productos", Impact, "Arial Black", sans-serif !important;
   font-weight: 400 !important;
   font-size: 32px;
@@ -82,4 +90,10 @@
 #mobile-menu-sidenav .mobile-menu-sidenav__item-link:hover,
 .header-menu .uk-dropdown .desktop-list-link__text:hover {
   color: #5b2a86 !important;
+}
+
+/* Links del carrito (calcular envio, descuento, seguir comprando): solo el color, no la letra */
+#cart-sidenav .cart-sidenav__detail-title a,
+#cart-sidenav .cart-sidenav__button-link {
+  color: #231a2b !important;
 }

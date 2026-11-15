@@ -84,18 +84,32 @@ body {
   box-sizing: border-box;
   padding: 0 28px;
   min-height: 64px !important;
-  justify-content: flex-end !important;
+  direction: ltr !important;
+  flex-direction: row !important;       /* por si la plantilla lo invierte */
+  justify-content: flex-start !important;
   pointer-events: none;                 /* no tapa el logo */
 }
 .header-menu .header-menu__desktop-list > li {
   pointer-events: auto;
+  order: 0;
 }
-/* los últimos 3 (buscador, cuenta, carrito) pasan a la izquierda */
+/* "Inicio" es siempre el primero: empuja todo el menú a la derecha */
+.header-menu .header-menu__desktop-list > li:first-child {
+  margin-left: auto !important;
+}
+/* Íconos a la izquierda (los últimos 3 de la lista) */
 .header-menu .header-menu__desktop-list > li:nth-last-child(-n+3) {
   order: -1;
 }
-.header-menu .header-menu__desktop-list > li:last-child {
-  margin-right: auto !important;        /* empuja el menú a la derecha */
+/* Orden de los íconos: carrito, buscador, iniciar sesión */
+.header-menu .header-menu__desktop-list > li.desktop-list__item--cart {
+  order: -3;
+}
+.header-menu .header-menu__desktop-list > li:has(> a.uk-navbar-toggle) {
+  order: -2;
+}
+.header-menu .header-menu__desktop-list > li:has(> a > svg circle[r="4.4"]) {
+  order: -1;
 }
 
 /* Celular */
@@ -113,13 +127,20 @@ body {
   width: 100%;
   padding: 0 16px;
   min-height: 56px !important;
+  direction: ltr !important;
+  flex-direction: row !important;
   justify-content: flex-start !important;
 }
 .header-menu__mobile .mobile__actions-list > li {
   pointer-events: auto;
 }
+/* carrito primero, después buscador */
+.header-menu__mobile .mobile__actions-list > li:nth-child(2) {
+  order: -1;
+}
+/* botón del menú (rayitas) a la derecha */
 .header-menu__mobile .mobile__actions-list > li:last-child {
-  margin-left: auto !important;         /* botón del menú a la derecha */
+  margin-left: auto !important;
 }
 
 /* ---------- 5. Celular / tablet: derretido sin deformar ---------- */

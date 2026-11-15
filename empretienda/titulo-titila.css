@@ -1,0 +1,12 @@
+/* Titulo "Harakiri Store": titila muy suave (solo el texto, no los murcielagos) */
+.block-text__title span {
+  animation: hk-titila 7s linear infinite;
+}
+@keyframes hk-titila {
+  0%, 17%, 22%, 61%, 66%, 100% { opacity: 1; }
+  19% { opacity: .84; }
+  20% { opacity: .96; }
+  63% { opacity: .88; }
+  64% { opacity: 1; }
+  65% { opacity: .92; }
+}

@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Harakiri Store - header con derretido + logo grande al centro
+   Pegar en: Panel > Diseño > Edición CSS (avanzado)
+   (va junto con tarjetas-producto.css, uno debajo del otro)
+
+   ANTES DE PEGAR: reemplazar  derretido.png  por el link de la imagen
+   derretido.png una vez subida (ver instrucciones en el chat).
+
+   - Solo CSS: no cambia la estructura ni oculta la leyenda de Empretienda.
+   - Ajustes rápidos en las variables de abajo (--hk-*).
+   ========================================================================== */
+
+/* ---------- 1. Sacar el "Bienvenid@ a Harakiri" ---------- */
+.header-announcement,
+.header-announcement__text {
+  display: none !important;
+}
+
+/* ---------- 2. Header: derretido arriba de todo ---------- */
+.header-menu {
+  --hk-d: clamp(200px, 20vw, 320px);   /* alto de la franja del derretido */
+  position: relative;
+  min-height: 0 !important;            /* pisa el min-height:115px inline */
+  padding-top: var(--hk-d);
+  background-image: url("derretido.png");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% var(--hk-d);
+}
+
+/* ---------- 3. Logo grande, centrado, en el hueco del derretido ---------- */
+.header-menu .header-logo {
+  position: absolute;
+  top: calc(var(--hk-d) * .42);        /* debajo de la parte pegada */
+  left: 50%;
+  transform: translateX(-50%);
+  height: calc(var(--hk-d) * .5);
+  margin: 0;
+  z-index: 2;
+}
+.header-menu .header-logo__link {
+  display: block;
+  height: 100%;
+}
+.header-menu .header-logo__image {
+  height: 100%;
+  width: auto;
+  max-width: 24vw;                     /* para no pisar las gotas laterales */
+  object-fit: contain;
+}
+
+/* ---------- 4. Menú: queda debajo del derretido, centrado ---------- */
+.header-menu__desktop,
+.header-menu__desktop-list {
+  min-height: 64px !important;
+}
+.header-menu__desktop {
+  justify-content: center !important;
+}
+
+.header-menu__mobile,
+.header-menu__mobile .mobile__actions,
+.header-menu__mobile .mobile__actions-list {
+  min-height: 56px !important;
+}
+.header-menu__mobile {
+  justify-content: center !important;
+}

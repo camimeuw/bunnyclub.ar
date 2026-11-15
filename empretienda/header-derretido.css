@@ -38,10 +38,10 @@ body {
 /* ---------- 3. Logo grande, centrado, en el hueco del derretido ---------- */
 .header-menu .header-logo {
   position: absolute;
-  top: calc(var(--hk-d) * .42);        /* debajo de la parte pegada */
+  top: calc(var(--hk-d) * .2);         /* ahora puede tapar un poco las gotas */
   left: 50%;
   transform: translateX(-50%);
-  height: calc(var(--hk-d) * .54);
+  height: calc(var(--hk-d) * .8);
   margin: 0;
   z-index: 2;
 }
@@ -52,7 +52,7 @@ body {
 .header-menu .header-logo__image {
   height: 100%;
   width: auto;
-  max-width: 26vw;                     /* para no pisar las gotas laterales */
+  max-width: 40vw;                     /* tope de ancho del logo */
   object-fit: contain;
 }
 
@@ -80,6 +80,6 @@ body {
     --hk-d: min(50vw, 300px);          /* la imagen mantiene su proporción 2:1 */
   }
   .header-menu .header-logo__image {
-    max-width: 28vw;
+    max-width: 48vw;
   }
 }

@@ -73,3 +73,13 @@ body {
 .header-menu__mobile {
   justify-content: center !important;
 }
+
+/* ---------- 5. Celular / tablet: derretido sin deformar ---------- */
+@media (max-width: 959px) {
+  .header-menu {
+    --hk-d: min(50vw, 300px);          /* la imagen mantiene su proporción 2:1 */
+  }
+  .header-menu .header-logo__image {
+    max-width: 28vw;
+  }
+}

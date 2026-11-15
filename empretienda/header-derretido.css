@@ -10,6 +10,12 @@
    - Ajustes rápidos en las variables de abajo (--hk-*).
    ========================================================================== */
 
+/* ---------- 0. Color de fondo de toda la tienda ---------- */
+html,
+body {
+  background-color: #fdd7fc !important;
+}
+
 /* ---------- 1. Sacar el "Bienvenid@ a Harakiri" ---------- */
 .header-announcement,
 .header-announcement__text {
@@ -18,10 +24,11 @@
 
 /* ---------- 2. Header: derretido arriba de todo ---------- */
 .header-menu {
-  --hk-d: clamp(200px, 20vw, 320px);   /* alto de la franja del derretido */
+  --hk-d: clamp(240px, 24vw, 380px);   /* alto de la franja del derretido */
   position: relative;
   min-height: 0 !important;            /* pisa el min-height:115px inline */
   padding-top: var(--hk-d);
+  background-color: #fdd7fc !important;  /* fondo del header */
   background-image: url("URL_DEL_DERRETIDO");
   background-repeat: no-repeat;
   background-position: top center;
@@ -34,7 +41,7 @@
   top: calc(var(--hk-d) * .42);        /* debajo de la parte pegada */
   left: 50%;
   transform: translateX(-50%);
-  height: calc(var(--hk-d) * .5);
+  height: calc(var(--hk-d) * .54);
   margin: 0;
   z-index: 2;
 }
@@ -45,7 +52,7 @@
 .header-menu .header-logo__image {
   height: 100%;
   width: auto;
-  max-width: 24vw;                     /* para no pisar las gotas laterales */
+  max-width: 26vw;                     /* para no pisar las gotas laterales */
   object-fit: contain;
 }
 

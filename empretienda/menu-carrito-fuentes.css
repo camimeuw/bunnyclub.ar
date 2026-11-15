@@ -1,0 +1,85 @@
+/* Menu y carrito: fondo violeta pastel + fuente Deathgrin. Nombres de producto: Celtic Garamond. */
+@font-face {
+  font-family: "HK Nombres";
+  src: url("CELTIC_INCRUSTADA") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- Nombres de los productos ---------- */
+.block-products-feed__product-name,
+.block-products-feed__product-name a {
+  font-family: "HK Nombres", Georgia, "Times New Roman", serif !important;
+  font-weight: 400 !important;
+  font-size: 18px;
+  letter-spacing: .02em;
+}
+@media (max-width: 640px) {
+  .block-products-feed__product-name,
+  .block-products-feed__product-name a { font-size: 15.5px; }
+}
+
+/* ---------- Fondo violeta pastel: menu del celular, carrito y desplegables ---------- */
+#mobile-menu-sidenav .uk-offcanvas-bar,
+#cart-sidenav .uk-offcanvas-bar,
+#cart-sidenav [class*="offcanvas-bar"],
+.header-menu .uk-dropdown,
+.header-menu__desktop-list__container-list {
+  background: #d7a6f8 !important;
+  color: #231a2b !important;
+}
+#mobile-menu-sidenav .text--primary,
+#cart-sidenav .text--primary,
+.header-menu .uk-dropdown .text--primary {
+  color: #231a2b !important;
+}
+
+/* ---------- Fuente Deathgrin: categorias del menu ---------- */
+.mobile-menu-sidenav__item-link,
+.desktop-list-link__text,
+.desktop-list__title,
+.desktop-list__link {
+  font-family: "HK Productos", Impact, "Arial Black", sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+.mobile-menu-sidenav__item-link {
+  font-size: 26px;
+  line-height: 1.5;
+}
+.desktop-list-link__text,
+.desktop-list__title {
+  font-size: 20px;
+}
+.desktop-list__link {
+  font-size: 19px;
+}
+
+/* ---------- Fuente Deathgrin: titulo del carrito ---------- */
+#cart-sidenav h1,
+#cart-sidenav h2,
+#cart-sidenav h3,
+#cart-sidenav h4,
+#cart-sidenav [class*="cart"][class*="title"] {
+  font-family: "HK Productos", Impact, "Arial Black", sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 32px;
+  letter-spacing: .04em;
+  text-transform: none;
+}
+
+/* Letras oscuras sobre el violeta (links y boton de cerrar) */
+#mobile-menu-sidenav .mobile-menu-sidenav__item-link,
+#mobile-menu-sidenav .uk-offcanvas-close,
+#cart-sidenav .uk-offcanvas-close,
+.header-menu .uk-dropdown .desktop-list-link__text,
+.header-menu .uk-dropdown .desktop-list__title,
+.header-menu .uk-dropdown .desktop-list__text {
+  color: #231a2b !important;
+}
+#mobile-menu-sidenav .mobile-menu-sidenav__item-link:hover,
+.header-menu .uk-dropdown .desktop-list-link__text:hover {
+  color: #5b2a86 !important;
+}

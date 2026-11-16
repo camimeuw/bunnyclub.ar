@@ -7,3 +7,13 @@
   0%, 100% { transform: translateY(0) rotate(-1.2deg); }
   50%      { transform: translateY(-10px) rotate(1.2deg); }
 }
+
+/* Banner de la home flotando (se agranda un poco para que no queden huecos al moverse) */
+.block-carrousel__image {
+  animation: hk-banner 6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes hk-banner {
+  0%, 100% { transform: translateY(-3.5%) scale(1.08); }
+  50%      { transform: translateY(3.5%) scale(1.08); }
+}

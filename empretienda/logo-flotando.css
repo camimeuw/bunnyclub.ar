@@ -8,12 +8,21 @@
   50%      { transform: translateY(-10px) rotate(1.2deg); }
 }
 
-/* Banner de la home flotando (se agranda un poco para que no queden huecos al moverse) */
+/* Banner de la home: late en su lugar y titila suave (se agranda un poco para que no queden huecos) */
 .block-carrousel__image {
-  animation: hk-banner 6s ease-in-out infinite;
-  will-change: transform;
+  animation: hk-banner 6s ease-in-out infinite, hk-titila-s 7s linear infinite;
+  will-change: transform, opacity;
 }
 @keyframes hk-banner {
-  0%, 100% { transform: translateY(-3.5%) scale(1.08); }
-  50%      { transform: translateY(3.5%) scale(1.08); }
+  0%, 100% { transform: translateY(-1.2%) scale(1.06); }
+  50%      { transform: translateY(1.2%) scale(1.09); }
+}
+@keyframes hk-titila-s {
+  0%, 13%, 19%, 54%, 60%, 80%, 85%, 100% { opacity: 1; }
+  14% { opacity: .72; }
+  15% { opacity: .95; }
+  16% { opacity: .78; }
+  55% { opacity: .8; }
+  57% { opacity: .88; }
+  82% { opacity: .86; }
 }

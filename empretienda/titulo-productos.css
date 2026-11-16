@@ -1,4 +1,4 @@
-/* Título "Productos": fuente Deathgrin (Burntilldead, uso personal y comercial) + ojo al lado. */
+/* Titulo "Productos": fuente Deathgrin (Burntilldead, uso personal y comercial). */
 @font-face {
   font-family: "HK Productos";
   src: url("DEATHGRIN_INCRUSTADA") format("woff2");
@@ -15,16 +15,6 @@
   line-height: 1.1;
   letter-spacing: .03em;
   text-transform: none;
-}
-/* Ojo al costado del texto (pegado al título, siempre a su lado) */
-.block-products-feed__title span::after {
-  content: "";
-  display: inline-block;
-  width: 1.4em;
-  height: 1.4em;
-  margin-left: .3em;
-  vertical-align: -.35em;
-  background: url("OJO_PNG") no-repeat center / contain;
 }
 
 /* Fondo de toda la sección de productos: mismo rosa de la página, liso */

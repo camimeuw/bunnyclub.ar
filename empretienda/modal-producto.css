@@ -1,0 +1,34 @@
+/* Ventana del producto: fondo rosa con puntitos, titulo con la fuente de los nombres, cantidad a juego. */
+.product-modal .uk-modal-dialog,
+.product-modal.uk-modal-dialog,
+.product-modal__content,
+.product-modal__body {
+  background-color: #fdd7fc !important;
+  background-image: radial-gradient(circle, rgba(176, 120, 226, .38) 1.6px, transparent 2.2px) !important;
+  background-size: 24px 24px !important;
+}
+.product-modal__title,
+.product-modal__name,
+.product-modal__product-title,
+.product-modal__title span,
+.product-modal__name span {
+  font-family: "HK Nombres", Georgia, "Times New Roman", serif !important;
+  font-weight: 400 !important;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: .02em;
+  color: #231a2b !important;
+}
+.product-modal__quantity-button {
+  border: 1px solid #231a2b !important;
+  background: #231a2b !important;
+  color: #ffc9e8 !important;
+}
+.product-modal__quantity-button--disabled {
+  opacity: .45;
+}
+.product-modal__quantity-value {
+  border: 1px solid #231a2b !important;
+  background: #fffafd !important;
+  color: #231a2b !important;
+}

@@ -32,6 +32,13 @@
   const num = s => { s = (s || "").replace(/[^\d.,]/g, ""); if (/,\d{1,2}$/.test(s)) s = s.replace(/\./g, "").replace(",", "."); else s = s.replace(/[.,]/g, ""); return Number(s) || 0; };
   const isTrue = s => /^(si|sí|s|x|1|true|agotado|yes)$/i.test((s || "").trim());
 
+  const RENAME = Object.fromEntries(Object.entries(CFG.renombrar || {}).map(([a, b]) => [slugify(a), b]));
+  function canonSub(label) {
+    const s = slugify(label); if (!s) return "";
+    if (RENAME[s]) return RENAME[s];
+    return (CFG.subcategorias || []).find(x => slugify(x) === s) || String(label).trim();
+  }
+
   let PRODUCTS = [];
   async function loadFromFirebase() {
     if (!window.BunnyDB || !BunnyDB.enabled()) return false;
@@ -41,7 +48,7 @@
       docs.sort((a, b) => (a.orden || 0) - (b.orden || 0));
       PRODUCTS = docs.map((d, i) => ({
         id: i, fid: d.id, nombre: d.nombre, precio: Number(d.precio) || 0,
-        cat: slugify(d.categoria), catLabel: d.categoria, sub: slugify(d.subcategoria), subLabel: d.subcategoria,
+        cat: slugify(d.categoria), catLabel: d.categoria, sub: slugify(canonSub(d.subcategoria)), subLabel: canonSub(d.subcategoria),
         imgs: (d.thumbs || []).slice(), thumb: (d.thumbs || [])[0] || "", fotoIds: d.imagenes || [],
         desc: d.descripcion || "", talles: list(d.talles), colores: list(d.colores), agotado: !!d.agotado,
       })).filter(p => p.nombre);
@@ -74,7 +81,7 @@
         return {
           id: i, nombre: r.nombre, precio: num(r.precio),
           cat: slugify(r.categoria), catLabel: r.categoria,
-          sub: slugify(r.subcategoria), subLabel: r.subcategoria,
+          sub: slugify(canonSub(r.subcategoria)), subLabel: canonSub(r.subcategoria),
           imgs, desc: r.descripcion, talles: list(r.talles), colores: list(r.colores), agotado: isTrue(r.agotado),
         };
       }).filter(p => p.nombre);
@@ -93,14 +100,13 @@
   const catalog = $("#catalog"), empty = $("#empty");
 
   const SIZES = [470, 330, 380, 290, 440, 320, 480, 295, 400, 400];
-  const MENU = [
-    { slug: "indumentaria", label: "Indumentaria", sub: [
-      { slug: "partes-de-arriba", label: "Partes de arriba" },
-      { slug: "partes-de-abajo", label: "Partes de abajo" },
-      { slug: "vestidos", label: "Vestidos" },
-    ] },
-    { slug: "accesorios", label: "Accesorios" },
-  ];
+  // Tipos de prenda: los de config.js (en ese orden) y, al final, cualquier otro que se haya escrito en un producto
+  const SUBS_CFG = (CFG.subcategorias && CFG.subcategorias.length) ? CFG.subcategorias : ["Partes de arriba", "Partes de abajo", "Vestidos y conjuntos"];
+  function menuData() {
+    const subs = SUBS_CFG.map(l => ({ slug: slugify(l), label: l }));
+    PRODUCTS.forEach(p => { if (p.cat === "indumentaria" && p.sub && !subs.some(s => s.slug === p.sub)) subs.push({ slug: p.sub, label: p.subLabel }); });
+    return [{ slug: "indumentaria", label: "Indumentaria", sub: subs }, { slug: "accesorios", label: "Accesorios" }];
+  }
   let FILTER = { cat: "todo", sub: null };
   const filtered = () => PRODUCTS.filter(p => FILTER.cat === "todo" || (p.cat === FILTER.cat && (!FILTER.sub || p.sub === FILTER.sub)));
   function renderCatalog() {
@@ -134,7 +140,7 @@
   /* ---------- menú (categorías, talles, envíos, contacto) ---------- */
   const mpanel = $("#mpanel"), menuBtn = $("#menu-btn");
   function buildMenuPanel() {
-    $("#mp-cats").innerHTML = `<button type="button" class="mp-cat" data-cat="todo">Ver todo</button>` + MENU.map(m =>
+    $("#mp-cats").innerHTML = `<button type="button" class="mp-cat" data-cat="todo">Ver todo</button>` + menuData().map(m =>
       `<button type="button" class="mp-cat" data-cat="${m.slug}"${m.sub ? ' data-has-sub aria-expanded="false"' : ""}>${m.label}</button>` +
       (m.sub ? `<div class="mp-subs" data-for="${m.slug}"><div>${[{ slug: "", label: "Todo" }, ...m.sub].map(s => `<button type="button" class="mp-sub" data-cat="${m.slug}" data-sub="${s.slug}">${s.label}</button>`).join("")}</div></div>` : "")).join("");
     const info = CFG.info || {};
@@ -219,6 +225,9 @@
     buy.firstElementChild.textContent = cur.agotado ? "Consultar reposición" : "Agregar al carrito";
     $("#m-talles-wrap").hidden = !cur.talles.length; chips($("#m-talles"), cur.talles, "talle");
     $("#m-colores-wrap").hidden = !cur.colores.length; chips($("#m-colores"), cur.colores, "color");
+    // si hay una sola opción (por ejemplo "Único (S a L)"), queda elegida sola
+    if (cur.talles.length === 1) { selTalle = cur.talles[0]; $("#m-talles .chip").setAttribute("aria-checked", "true"); }
+    if (cur.colores.length === 1) { selColor = cur.colores[0]; $("#m-colores .chip").setAttribute("aria-checked", "true"); }
     $(".m-stage").classList.toggle("single", cur.imgs.length < 2);
     $("#m-thumbs").innerHTML = cur.imgs.length > 1 ? cur.imgs.map((s, k) => `<button type="button" aria-label="Foto ${k + 1}"><img src="${s}" alt=""></button>`).join("") : "";
     showImg(0, false); updateBuy();

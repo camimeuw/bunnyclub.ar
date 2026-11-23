@@ -19,10 +19,10 @@ La planilla es `data/productos.csv`. Abrila con Excel, editala y guardá como **
 | `nombre` | Nombre del producto |
 | `precio` | Solo el número: `18500` (la página lo muestra `$18.500`) |
 | `categoria` | `Indumentaria` o `Accesorios` |
-| `subcategoria` | Solo para indumentaria: `Partes de arriba`, `Partes de abajo` o `Vestidos` |
+| `subcategoria` | Solo para indumentaria: `Partes de arriba`, `Partes de abajo`, `Vestidos y conjuntos` o `Trajes de baño / Bikinis`. Si escribís otro (por ejemplo `Shorts`), aparece solo en el menú |
 | `imagenes` | Archivos separados por `\|`: `top-lila.png\|top-lila-2.png` (van en la carpeta `img/`) |
 | `descripcion` | Texto que se ve al abrir el producto |
-| `talles` | `S\|M\|L` (vacío si no tiene) |
+| `talles` | `S\|M\|L\|XXL`, `Único (S a L)` o por número `36\|38\|40` (vacío si no tiene). Si hay un solo talle, queda elegido solo |
 | `colores` | `Rosa\|Negro` (vacío si no tiene) |
 | `agotado` | `si` para marcarlo como agotado |
 
@@ -61,7 +61,8 @@ La clienta lo escribe en el carrito, o entra por un link como `https://TUSITIO/?
 
 ## Menú
 El botón de arriba a la derecha, debajo del carrito, abre el menú: categorías con subcategorías (filtran los productos), Talles, Envíos y Contacto.
-Las categorías se leen de las columnas `categoria` y `subcategoria` del Excel (Indumentaria: Partes de arriba, Partes de abajo, Vestidos · Accesorios).
+Las categorías se leen de las columnas `categoria` y `subcategoria` del Excel o del panel (Indumentaria: Partes de arriba, Partes de abajo, Vestidos y conjuntos, Trajes de baño / Bikinis · Accesorios).
+El orden de los tipos de prenda se define en `subcategorias` de `js/config.js`; cualquier tipo nuevo escrito en un producto se agrega al final. Los productos viejos cargados como `Vestidos` se muestran como `Vestidos y conjuntos` (ver `renombrar` en `js/config.js`).
 Los textos de Talles y Envíos se editan en `js/config.js`, en `info`.
 
 ## 4. Decoraciones laterales

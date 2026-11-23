@@ -88,10 +88,10 @@
         <label>Precio ($)<input id="ed-precio" type="number" min="0" step="1" inputmode="numeric" required></label>
         <label>Categoría<select id="ed-cat"><option>Indumentaria</option><option>Accesorios</option></select></label>
       </div>
-      <label id="ed-sub-wrap">Tipo de prenda<select id="ed-sub"><option>Partes de arriba</option><option>Partes de abajo</option><option>Vestidos</option></select></label>
+      <label id="ed-sub-wrap">Tipo de prenda<input id="ed-sub" type="text" list="ed-sub-list" maxlength="40" autocomplete="off" placeholder="Partes de arriba"><datalist id="ed-sub-list"></datalist><small>Elegí uno de la lista o escribí uno nuevo: aparece solo en el menú de la tienda.</small></label>
       <label>Descripción<textarea id="ed-desc" rows="4" maxlength="600" placeholder="Material, cuidados, detalles…"></textarea></label>
       <div class="ad-two">
-        <label>Talles<input id="ed-talles" type="text" placeholder="S, M, L"><small>Separalos con coma. Dejalo vacío si no tiene talles.</small></label>
+        <label>Talles<input id="ed-talles" type="text" placeholder="S, M, L, XXL"><small>Separalos con coma. Ejemplos: <b>S, M, L, XXL</b> · <b>Único (S a L)</b> · <b>36, 38, 40</b>. Dentro de un mismo talle no uses coma. Vacío si no tiene talles.</small></label>
         <label>Colores<input id="ed-colores" type="text" placeholder="Rosa, Negro"><small>Separalos con coma. Dejalo vacío si es uno solo.</small></label>
       </div>
       <label class="ad-check"><input id="ed-agotado" type="checkbox"> Marcar como agotado</label>

@@ -16,7 +16,9 @@ window.BUNNY = {
   // Textos del menú (editalos a tu gusto; cada línea es un renglón)
   info: {
     talles: [
-      "Talles disponibles: S, M y L (cada producto indica los suyos).",
+      "Cada producto indica sus talles (del S al XXL).",
+      "Las prendas de talle único dicen qué talles abarcan, por ejemplo: Único (S a L).",
+      "Las bikinis, los trajes de baño y los shorts van por número.",
       "Si tenés dudas con tu talle, escribinos por WhatsApp y te ayudamos a elegir."
     ],
     envios: [
@@ -24,6 +26,11 @@ window.BUNNY = {
       "Te pasamos el costo y el tiempo de entrega según tu zona."
     ]
   },
+  // Tipos de prenda de Indumentaria, en el orden en que aparecen en el menú.
+  // Desde el panel también se puede escribir un tipo nuevo: aparece solo en el menú, al final de esta lista.
+  subcategorias: ["Partes de arriba", "Partes de abajo", "Vestidos y conjuntos", "Trajes de baño / Bikinis"],
+  // Nombres viejos que la tienda muestra con el nombre nuevo (así no hay que editar producto por producto).
+  renombrar: { "Vestidos": "Vestidos y conjuntos" },
   // Códigos de descuento (porcentaje). Para sumar uno, copiá una línea. "activo: false" lo apaga; "vence" es opcional (AAAA-MM-DD).
   // Además, un link como https://TUSITIO/?codigo=HOLA10 aplica el código solo.
   codigos: [

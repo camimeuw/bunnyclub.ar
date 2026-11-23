@@ -5,7 +5,17 @@
   const DB = window.BunnyDB;
   const money = n => "$" + new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(n);
   const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const SUBS = ["Partes de arriba", "Partes de abajo", "Vestidos"];
+  const CFG = window.BUNNY || {};
+  const slug = s => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  const SUBS = (CFG.subcategorias && CFG.subcategorias.length) ? CFG.subcategorias : ["Partes de arriba", "Partes de abajo", "Vestidos y conjuntos"];
+  const RENAME = Object.fromEntries(Object.entries(CFG.renombrar || {}).map(([a, b]) => [slug(a), b]));
+  // nombre "oficial" del tipo de prenda: aplica los renombres y usa la escritura de la lista o de un producto ya cargado
+  function canonSub(label) {
+    const s = slug(label); if (!s) return "";
+    if (RENAME[s]) return RENAME[s];
+    const known = [...SUBS, ...PRODS.map(p => p.subcategoria || "")].find(x => slug(x) === s && !RENAME[slug(x)]);
+    return known || String(label).trim();
+  }
   const MAX_FOTOS = 8;
   let PRODS = [], CODES = [], editing = null;
 
@@ -68,7 +78,7 @@
       <li class="ad-item" data-i="${i}">
         <div class="ad-thumb">${(p.thumbs || [])[0] ? `<img src="${p.thumbs[0]}" alt="">` : ""}</div>
         <div class="ad-info"><span class="ad-name">${esc(p.nombre)}</span><span class="ad-price">${money(p.precio || 0)}</span>
-          <span class="ad-sub">${esc([p.categoria, p.subcategoria].filter(Boolean).join(" · "))}</span>${p.agotado ? '<span class="ad-tag">Agotado</span>' : ""}</div>
+          <span class="ad-sub">${esc([p.categoria, p.categoria === "Indumentaria" ? canonSub(p.subcategoria) : ""].filter(Boolean).join(" · "))}</span>${p.agotado ? '<span class="ad-tag">Agotado</span>' : ""}</div>
         <div class="ad-acts">
           <button type="button" data-a="up" class="sq" aria-label="Subir" ${i === 0 ? "disabled" : ""}>▲</button>
           <button type="button" data-a="down" class="sq" aria-label="Bajar" ${i === PRODS.length - 1 ? "disabled" : ""}>▼</button>
@@ -91,6 +101,13 @@
   const listText = s => String(s || "").split(/[|,]/).map(x => x.trim()).filter(Boolean);
   function syncSub() { $("#ed-sub-wrap").hidden = $("#ed-cat").value !== "Indumentaria"; }
   $("#ed-cat").addEventListener("change", syncSub);
+  // sugerencias del tipo de prenda: los de config.js y los que ya se escribieron en otros productos
+  function fillSubList() {
+    const opts = [];
+    [...SUBS, ...PRODS.filter(p => p.categoria === "Indumentaria").map(p => canonSub(p.subcategoria))]
+      .forEach(x => { if (x && !opts.some(o => slug(o) === slug(x))) opts.push(x); });
+    $("#ed-sub-list").innerHTML = opts.map(o => `<option value="${esc(o)}"></option>`).join("");
+  }
   function openEditor(p) {
     const nuevo = !p;
     editing = nuevo ? { id: "p" + Date.now().toString(36), orden: PRODS.length ? Math.max(...PRODS.map(x => x.orden || 0)) + 1 : 0, fotos: [], originales: [], nuevo: true }
@@ -98,7 +115,8 @@
     $("#ed-title").textContent = nuevo ? "Nuevo producto" : "Editar producto";
     $("#ed-nombre").value = p ? p.nombre || "" : ""; $("#ed-precio").value = p ? p.precio || "" : "";
     $("#ed-cat").value = p && p.categoria ? p.categoria : "Indumentaria";
-    $("#ed-sub").value = p && SUBS.includes(p.subcategoria) ? p.subcategoria : SUBS[0]; syncSub();
+    fillSubList();
+    $("#ed-sub").value = p ? canonSub(p.subcategoria) : SUBS[0]; syncSub();
     $("#ed-desc").value = p ? p.descripcion || "" : "";
     $("#ed-talles").value = p ? listText(p.talles).join(", ") : ""; $("#ed-colores").value = p ? listText(p.colores).join(", ") : "";
     $("#ed-agotado").checked = !!(p && p.agotado); $("#ed-delete").hidden = nuevo;
@@ -148,7 +166,7 @@
       for (const f of editing.fotos) { if (f.nuevo) await DB.set("fotos", f.id, { data: f.data }); ids.push(f.id); thumbs.push(f.thumb); }
       for (const id of editing.originales) if (!ids.includes(id)) { try { await DB.del("fotos", id); } catch (er) {} }
       const cat = $("#ed-cat").value;
-      await saveDoc({ id: editing.id, nombre, precio, categoria: cat, subcategoria: cat === "Indumentaria" ? $("#ed-sub").value : "", descripcion: $("#ed-desc").value.trim(),
+      await saveDoc({ id: editing.id, nombre, precio, categoria: cat, subcategoria: cat === "Indumentaria" ? canonSub($("#ed-sub").value) : "", descripcion: $("#ed-desc").value.trim(),
         talles: listText($("#ed-talles").value).join("|"), colores: listText($("#ed-colores").value).join("|"), agotado: $("#ed-agotado").checked, imagenes: ids, thumbs, orden: editing.orden });
       await loadProds(); closeEditor(); toast("Producto guardado ♡");
     } catch (err) { msg.textContent = niceErr(err); }

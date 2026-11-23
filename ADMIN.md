@@ -24,6 +24,8 @@ A partir de ahí la tienda lee todo de Firebase. Si Firebase no responde, la tie
 
 ## Qué puede hacer la dueña
 - **Productos:** agregar, editar, eliminar, marcar como agotado, cambiar el orden (flechas ▲ ▼), cargar nombre, precio, categoría, tipo de prenda, descripción, talles y colores.
+- **Tipo de prenda:** se elige de la lista (Partes de arriba, Partes de abajo, Vestidos y conjuntos, Trajes de baño / Bikinis) o se escribe uno nuevo, que aparece solo en el menú de la tienda.
+- **Talles:** se escriben libres, separados por coma: `S, M, L, XXL`, `Único (S a L)` o por número `36, 38, 40`. Dentro de un mismo talle no se usa coma. Si el producto tiene un solo talle, en la tienda queda elegido solo.
 - **Fotos:** subir hasta 8 por producto desde el celular o la compu. Si la foto tiene **fondo blanco**, el panel lo quita solo (se puede desmarcar). Conviene que el producto esté bien iluminado y centrado.
 - **Códigos de descuento:** crear uno con su nombre y el porcentaje (por ejemplo `HOLA10` y 10%), ponerle fecha de vencimiento opcional, apagarlo o prenderlo, y eliminarlo.
 

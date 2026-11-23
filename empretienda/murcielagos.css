@@ -1,0 +1,40 @@
+/* Murciélagos a los costados del título "Harakiri Store".
+   Izquierda: imagen 1 / Derecha: imagen 2. Son negros con fondo transparente.
+   Se miden en "em" para seguir el tamaño del título; pueden tocar el header. */
+.block-text__title {
+  position: relative;
+}
+.block-text__title::before,
+.block-text__title::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: min(5em, 16vw);
+  aspect-ratio: 320 / 305;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transform: translateY(-62%);
+  pointer-events: none;
+  z-index: 0;
+}
+.block-text__title::before {
+  right: calc(50% + 4.35em);
+  background-image: url("MURCI_IZQ");
+}
+.block-text__title::after {
+  left: calc(50% + 4.35em);
+  background-image: url("MURCI_IZQ");
+  transform: translateY(-62%) scaleX(-1);   /* espejo del de la izquierda */
+}
+.block-text__title span {
+  position: relative;
+  z-index: 1;
+}
+@media (max-width: 640px) {
+  .block-text__title::before,
+  .block-text__title::after {
+    width: min(2.4em, 13vw);
+  }
+  .block-text__title::before { right: calc(50% + 4.2em); }
+  .block-text__title::after  { left: calc(50% + 4.2em); }
+}

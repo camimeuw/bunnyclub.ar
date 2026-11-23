@@ -1,0 +1,26 @@
+/* Footer: fondo rosa con puntitos (igual que la pagina). La leyenda de Empretienda se mantiene visible. */
+footer,
+.footer,
+.footer__top,
+.footer__bottom {
+  background-color: #fdd7fc !important;
+  background-image: radial-gradient(circle, rgba(176, 120, 226, .38) 1.6px, transparent 2.2px) !important;
+  background-size: 24px 24px !important;
+}
+footer,
+footer a,
+footer p,
+footer h5,
+footer li,
+footer span,
+footer i,
+footer .text--primary,
+.footer a,
+.footer p,
+.footer h5,
+.footer li,
+.footer span,
+.footer i,
+.footer .text--primary {
+  color: #231a2b !important;
+}

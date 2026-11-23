@@ -1,0 +1,74 @@
+/* Paginas de informacion (Quienes somos, Politica de devolucion, Usos y cuidados):
+   titulo con la fuente de "Harakiri Store", texto con la de los nombres de producto,
+   contenido en tarjeta con marco fino y sombra lila, y murcielago flotando. */
+.page__title,
+.page__title span {
+  font-family: "HK Titulo", Impact, "Arial Black", sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  font-size: clamp(38px, 7vw, 68px);
+  line-height: 1.1;
+  letter-spacing: .02em;
+}
+.page__content {
+  position: relative;
+  max-width: 720px;
+  margin: 70px auto 40px;
+  padding: 34px 36px;
+  border: 1px solid #231a2b;
+  border-radius: 14px;
+  background: #fffafd;
+  box-shadow: 5px 5px 0 rgba(215, 166, 248, .85);
+  color: #231a2b;
+  font-size: 19px;
+  line-height: 1.75;
+}
+.page__content,
+.page__content p,
+.page__content strong,
+.page__content span,
+.page__content li,
+.page__content a,
+.page__content h1,
+.page__content h2,
+.page__content h3 {
+  font-family: "HK Nombres", Georgia, "Times New Roman", serif !important;
+  font-weight: 400;
+}
+.page__content strong {
+  font-weight: 700;
+}
+.page__content iframe {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  margin: 18px auto;
+  border: 1px solid #231a2b;
+  border-radius: 10px;
+}
+.page__content::before {
+  content: "";
+  position: absolute;
+  top: -66px;
+  right: 22px;
+  width: 92px;
+  aspect-ratio: 150 / 188;
+  background: var(--hk-bicho) no-repeat center / contain;
+  animation: hk-flota 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .page__content {
+    margin-top: 60px;
+    padding: 24px 20px;
+    font-size: 17px;
+    border-radius: 11px;
+    box-shadow: 3px 3px 0 rgba(215, 166, 248, .85);
+  }
+  .page__content::before {
+    top: -56px;
+    width: 76px;
+  }
+}

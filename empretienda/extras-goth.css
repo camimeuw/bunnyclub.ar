@@ -1,0 +1,45 @@
+/* Extras pastel goth: telaraña en las tarjetas, puntitos de fondo, cursor y barra de desplazamiento */
+
+/* Puntitos sobre el fondo rosa */
+html,
+body {
+  background-image: radial-gradient(circle, rgba(176, 120, 226, .38) 1.6px, transparent 2.2px) !important;
+  background-size: 24px 24px !important;
+}
+
+/* Cursor: estrella lila (normal) y corazón rosa (links y botones) */
+html,
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 2l4.2 9.3 10.1 1.1-7.6 6.8 2.2 10-8.9-5.2-8.9 5.2 2.2-10L1.7 12.4l10.1-1.1z' fill='%23d7a6f8' stroke='%231a1a1a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, auto;
+}
+a,
+button,
+[role="button"],
+.btn-buy,
+.block-products-feed__product-buttons-buy,
+label,
+summary,
+select {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 28S3 20 3 11.5A6.5 6.5 0 0 1 16 9a6.5 6.5 0 0 1 13 2.5C29 20 16 28 16 28z' fill='%23ffa6dc' stroke='%231a1a1a' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E") 16 16, pointer !important;
+}
+
+/* Barra de desplazamiento negra con detalle violeta pastel */
+html {
+  scrollbar-color: #d7a6f8 #1a1a1a;
+  scrollbar-width: auto;
+}
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #d7a6f8;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffa6dc;
+}

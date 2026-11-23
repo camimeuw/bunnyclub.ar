@@ -1,0 +1,152 @@
+/* ==========================================================================
+   Harakiri Store - header con derretido + logo grande al centro
+   Pegar en: Panel > Diseño > Edición CSS (avanzado)
+   (va junto con tarjetas-producto.css, uno debajo del otro)
+
+   ANTES DE PEGAR: reemplazar  URL_DEL_DERRETIDO  por el link de la imagen
+   derretido.png una vez subida (ver instrucciones en el chat).
+
+   - Solo CSS: no cambia la estructura ni oculta la leyenda de Empretienda.
+   - Ajustes rápidos en las variables de abajo (--hk-*).
+   ========================================================================== */
+
+/* ---------- 0. Color de fondo de toda la tienda ---------- */
+html,
+body {
+  background-color: #fdd7fc !important;
+}
+
+/* ---------- 1. Sacar el "Bienvenid@ a Harakiri" ---------- */
+.header-announcement,
+.header-announcement__text {
+  display: none !important;
+}
+
+/* ---------- 2. Header: derretido arriba de todo ---------- */
+.header-menu {
+  --hk-d: clamp(240px, 24vw, 380px);   /* alto de la franja del derretido */
+  position: relative;
+  min-height: 0 !important;            /* pisa el min-height:115px inline */
+  padding-top: var(--hk-d);
+  background-color: #fdd7fc !important;  /* fondo del header */
+  background-image: url("URL_DEL_DERRETIDO");
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% var(--hk-d);
+}
+
+/* ---------- 3. Logo grande, centrado, sobre el derretido ---------- */
+/* Se define por ANCHO (--hk-logo) y con !important para pisar cualquier
+   max-height / height que traiga la plantilla. Para cambiar el tamaño,
+   tocar solo --hk-logo (arriba/abajo) y --hk-logo-top. */
+.header-menu {
+  --hk-logo: var(--hk-d);                /* ancho del logo (computadora) */
+  --hk-logo-top: calc(var(--hk-d) * .2);/* distancia desde arriba */
+}
+.header-menu .header-logo {
+  position: absolute !important;
+  top: var(--hk-logo-top) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: var(--hk-logo) !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  z-index: 2;
+}
+.header-menu .header-logo__link {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+}
+.header-menu .header-logo__image {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* ---------- 4. Barra de arriba: buscador/cuenta/carrito a la izquierda,
+                      menú a la derecha (todo arriba, sobre el derretido) ---------- */
+.header-menu__desktop,
+.header-menu__mobile {
+  min-height: 0 !important;
+}
+
+/* Computadora: menú a la izquierda, íconos a la derecha */
+.header-menu .header-menu__desktop-list {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  padding: 0 28px;
+  min-height: 64px !important;
+  direction: ltr !important;
+  flex-direction: row !important;       /* por si la plantilla lo invierte */
+  justify-content: flex-start !important;
+  pointer-events: none;                 /* no tapa el logo */
+}
+.header-menu .header-menu__desktop-list > li {
+  pointer-events: auto;
+  order: 0;
+}
+/* Íconos (los últimos 3 de la lista) van después, a la derecha */
+.header-menu .header-menu__desktop-list > li:nth-last-child(-n+3) {
+  order: 1;
+}
+/* Orden de los íconos: carrito, buscador, iniciar sesión */
+.header-menu .header-menu__desktop-list > li.desktop-list__item--cart {
+  order: 1;
+  margin-left: auto !important;         /* empuja los íconos a la derecha */
+}
+.header-menu .header-menu__desktop-list > li:has(> a.uk-navbar-toggle) {
+  order: 2;
+}
+.header-menu .header-menu__desktop-list > li:has(> a > svg circle[r="4.4"]) {
+  order: 3;
+}
+
+/* Celular: botón del menú a la izquierda, carrito y buscador a la derecha */
+.header-menu__mobile .mobile__actions {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  min-height: 56px !important;
+  pointer-events: none;
+}
+.header-menu__mobile .mobile__actions-list {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 16px;
+  min-height: 56px !important;
+  direction: ltr !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+}
+.header-menu__mobile .mobile__actions-list > li {
+  pointer-events: auto;
+}
+.header-menu__mobile .mobile__actions-list > li:last-child {
+  order: -1;                            /* botón del menú (rayitas) primero */
+}
+.header-menu__mobile .mobile__actions-list > li:nth-child(2) {
+  order: 1;                             /* carrito */
+  margin-left: auto !important;         /* empuja carrito y buscador a la derecha */
+}
+.header-menu__mobile .mobile__actions-list > li:nth-child(1) {
+  order: 2;                             /* buscador */
+}
+
+/* ---------- 5. Celular / tablet: derretido sin deformar ---------- */
+@media (max-width: 959px) {
+  .header-menu {
+    --hk-d: min(50vw, 300px);          /* la imagen mantiene su proporción 2:1 */
+    --hk-logo: min(48vw, 300px);       /* ancho del logo (celular) */
+    --hk-logo-top: calc(var(--hk-d) * .2);
+  }
+}
